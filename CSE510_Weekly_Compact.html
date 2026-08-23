@@ -56,15 +56,6 @@
     border-left: 3px solid var(--gold);
     font-size: 12.5px;
   }
-  .alt-os-guide {
-    max-width: 1100px;
-    margin: 0 auto 14px;
-    border: 1px solid var(--border);
-    font-size: 12px;
-  }
-  .alt-os-guide th, .alt-os-guide td { padding: 7px 10px; }
-  .alt-os-guide th { background: var(--navy); color: #fff; }
-  .alt-os-guide td:first-child { width: 48px; color: var(--navy); font-weight: 700; white-space: nowrap; }
   table {
     width: 100%;
     border-collapse: collapse;
@@ -167,26 +158,7 @@
   <div class="sub">Fall 2026 · Whitewater University of California · Compact Reference Table</div>
 </div>
 
-<p class="alt-os-note"><strong>Alt OS option:</strong> For the alternative operating system portion of any weekly assignment, students may use a familiar laptop operating system such as macOS or Windows, in addition to iPhone or Android. Complete the closest equivalent task and document the result with screenshots.</p>
-<table class="alt-os-guide">
-<thead><tr><th>Week</th><th>Mac / Windows quick operation</th></tr></thead>
-<tbody>
-<tr><td>W1</td><td>Open Finder or File Explorer, arrange the Dock or taskbar with the required apps, and capture the desktop.</td></tr>
-<tr><td>W2</td><td>Create the three folders, then use Get Info on Mac or Properties &gt; Security on Windows to review access settings.</td></tr>
-<tr><td>W3</td><td>Use Activity Monitor on Mac or Task Manager on Windows to identify top CPU and memory users and close a non-essential app.</td></tr>
-<tr><td>W4</td><td>Install and remove a text editor and archive utility through the Mac App Store or Microsoft Store.</td></tr>
-<tr><td>W5</td><td>Open System Settings on Mac or Settings on Windows and capture equivalent display, power, language, and privacy panels.</td></tr>
-<tr><td>W6</td><td>Record the IP address in Network settings, then review the built-in firewall settings and document allowed web traffic.</td></tr>
-<tr><td>W7</td><td>Use Users &amp; Groups on Mac or Accounts &gt; Family &amp; other users on Windows to compare administrator and standard accounts.</td></tr>
-<tr><td>W8</td><td>Use an approved local server app, place the HTML file in its document folder, open localhost in a browser, and capture the running service.</td></tr>
-<tr><td>W9</td><td>Install DB Browser for SQLite, create <code>server_data.db</code>, build User Accounts visually, and enter five rows.</td></tr>
-<tr><td>W10</td><td>Add Activity Log in DB Browser, enter five records, filter by username, and capture the schema view.</td></tr>
-<tr><td>W11</td><td>Configure Time Machine on Mac or File History on Windows, run a backup, delete a test file, and restore it.</td></tr>
-<tr><td>W12</td><td>Use Disk Utility on Mac or the Windows recovery image tools to create a full test image and record its size.</td></tr>
-<tr><td>W13</td><td>Restore the approved image or backup to a test disk or virtual machine, then verify the files, web page, and database.</td></tr>
-<tr><td>W14</td><td>Use macOS Recovery or the Windows graphical installer on a practice device or VM and capture the major setup screens.</td></tr>
-</tbody>
-</table>
+<p class="alt-os-note"><strong>Alt OS option:</strong> The alternative operating system portion of each weekly assignment is completed on a familiar Mac or Windows laptop. Follow the corresponding brief operation in that week's Alt-OS item and submit screenshots.</p>
 
 <div class="table-wrap">
 <table>
@@ -271,13 +243,39 @@
 <tr>
 <td class="wk">W15</td>
 <td class="topic">Final Review / Makeup &amp; Q&amp;A Session</td>
-<td class="assign"><div class="main">Final Review/makeup for the weekly submissions and Q/A Session The alternative OS (iPhone/Android) options in Weeks 1-14 assignments will be reviewed. All the previous Week 1-14 compiles the capstone project and will be reviewed and discussed live in class and provide Q/A session to support the students altogether.</div></td>
+<td class="assign"><div class="main">Final Review/makeup for the weekly submissions and Q/A Session The alternative OS (Mac/Windows) options in Weeks 1-14 assignments will be reviewed. All the previous Week 1-14 compiles the capstone project and will be reviewed and discussed live in class and provide Q/A session to support the students altogether.</div></td>
 </tr>
 </tbody>
 </table>
 </div>
 
 <footer>This syllabus is tentative and subject to change.</footer>
+
+<script>
+  const altOsInstructions = [
+    'On Mac, use Finder and the Dock; on Windows, use File Explorer and the taskbar to arrange the required apps, then capture the desktop.',
+    'Create the three folders, then use Get Info on Mac or Properties > Security on Windows to review access settings.',
+    'Use Activity Monitor on Mac or Task Manager on Windows to identify top CPU and memory users and close a non-essential app.',
+    'Install and remove a text editor and archive utility through the Mac App Store or Microsoft Store.',
+    'Open System Settings on Mac or Settings on Windows and capture equivalent display, power, language, and privacy panels.',
+    'Record the IP address in Network settings, then review the built-in firewall settings and document allowed web traffic.',
+    'Use Users & Groups on Mac or Accounts > Family & other users on Windows to compare administrator and standard accounts.',
+    'Use an approved local server app, place the HTML file in its document folder, open localhost in a browser, and capture the running service.',
+    'Install DB Browser for SQLite, create server_data.db, build User Accounts visually, and enter five rows.',
+    'Add Activity Log in DB Browser, enter five records, filter by username, and capture the schema view.',
+    'Configure Time Machine on Mac or File History on Windows, run a backup, delete a test file, and restore it.',
+    'Use Disk Utility on Mac or the Windows recovery image tools to create a full test image and record its size.',
+    'Restore the approved image or backup to a test disk or virtual machine, then verify the files, web page, and database.',
+    'Use macOS Recovery or the Windows graphical installer on a practice device or VM and capture the major setup screens.'
+  ];
+  document.querySelectorAll('.tag-alt').forEach((tag, index) => {
+    tag.parentElement.replaceChildren(tag, document.createTextNode(` ${altOsInstructions[index]}`));
+  });
+  const firstMainAssignment = document.querySelector('.assign .main');
+  if (firstMainAssignment) {
+    firstMainAssignment.textContent = 'Log in to your school-provided Ubuntu server or a familiar Mac/Windows laptop. Using only the mouse or trackpad, customize the desktop Dock or taskbar to include apps related to file management, browsing, software installation, system settings, system monitoring, and text editing. Screenshot the customized Dock or taskbar and the full desktop. Submit to Moodle. This desktop configuration will be used as the starting point for every session that follows.';
+  }
+</script>
 
 </body>
 </html>

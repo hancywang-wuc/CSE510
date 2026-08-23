@@ -163,15 +163,6 @@
     border-left: 3px solid var(--gold);
     font-size: 12.5px;
   }
-  .alt-os-guide {
-    width: 100%;
-    margin: 0 0 18px;
-    border: 1px solid var(--border);
-    font-size: 12px;
-  }
-  .alt-os-guide th, .alt-os-guide td { padding: 7px 10px; }
-  .alt-os-guide th { background: var(--navy); color: #fff; }
-  .alt-os-guide td:first-child { width: 48px; color: var(--navy); font-weight: 700; white-space: nowrap; }
   .rubric-img {
     max-width: 100%;
     border-radius: 10px;
@@ -394,26 +385,7 @@ href="https://labex.io/">https://labex.io/</a></p>
 </h3>
 <h3 id="weekly-course-outline-timetable">WEEKLY COURSE OUTLINE &amp;
 TIMETABLE</h3>
-<p class="alt-os-note"><strong>Alt OS option:</strong> For the alternative operating system portion of any weekly assignment, students may use a familiar laptop operating system such as macOS or Windows, in addition to iPhone or Android. Complete the closest equivalent task and document the result with screenshots.</p>
-<table class="alt-os-guide">
-<thead><tr><th>Week</th><th>Mac / Windows quick operation</th></tr></thead>
-<tbody>
-<tr><td>W1</td><td>Open Finder or File Explorer, arrange the Dock or taskbar with the required apps, and capture the desktop.</td></tr>
-<tr><td>W2</td><td>Create the three folders, then use Get Info on Mac or Properties &gt; Security on Windows to review access settings.</td></tr>
-<tr><td>W3</td><td>Use Activity Monitor on Mac or Task Manager on Windows to identify top CPU and memory users and close a non-essential app.</td></tr>
-<tr><td>W4</td><td>Install and remove a text editor and archive utility through the Mac App Store or Microsoft Store.</td></tr>
-<tr><td>W5</td><td>Open System Settings on Mac or Settings on Windows and capture equivalent display, power, language, and privacy panels.</td></tr>
-<tr><td>W6</td><td>Record the IP address in Network settings, then review the built-in firewall settings and document allowed web traffic.</td></tr>
-<tr><td>W7</td><td>Use Users &amp; Groups on Mac or Accounts &gt; Family &amp; other users on Windows to compare administrator and standard accounts.</td></tr>
-<tr><td>W8</td><td>Use an approved local server app, place the HTML file in its document folder, open localhost in a browser, and capture the running service.</td></tr>
-<tr><td>W9</td><td>Install DB Browser for SQLite, create <code>server_data.db</code>, build User Accounts visually, and enter five rows.</td></tr>
-<tr><td>W10</td><td>Add Activity Log in DB Browser, enter five records, filter by username, and capture the schema view.</td></tr>
-<tr><td>W11</td><td>Configure Time Machine on Mac or File History on Windows, run a backup, delete a test file, and restore it.</td></tr>
-<tr><td>W12</td><td>Use Disk Utility on Mac or the Windows recovery image tools to create a full test image and record its size.</td></tr>
-<tr><td>W13</td><td>Restore the approved image or backup to a test disk or virtual machine, then verify the files, web page, and database.</td></tr>
-<tr><td>W14</td><td>Use macOS Recovery or the Windows graphical installer on a practice device or VM and capture the major setup screens.</td></tr>
-</tbody>
-</table>
+<p class="alt-os-note"><strong>Alt OS option:</strong> The alternative operating system portion of each weekly assignment is completed on a familiar Mac or Windows laptop. Follow the corresponding brief operation in that week's Alt-OS item and submit screenshots.</p>
 <table>
 <colgroup>
 <col style="width: 19%" />
@@ -442,7 +414,7 @@ course.</p>
 <p><strong>Reading Assignment (6 hrs):</strong> <a
 href="https://documentation.ubuntu.com/desktop/en/latest/tutorial/install-ubuntu-desktop/">https://documentation.ubuntu.com/desktop/en/latest/tutorial/install-ubuntu-desktop/</a></p>
 <p><strong>Weekly Assignment:</strong> Log in to your school-provided
-Ubuntu server or any OS like iPhone/Android phone. Using only the
+Ubuntu server or a familiar Mac/Windows laptop. Using only the
 mouse/Tap/Touchscreen, customize the desktop/home screen dock to include
 any apps related to Files app, Firefox browser, Software Centre, System
 Settings, System Monitor, and Text Editor. Screenshot the customized
@@ -884,7 +856,7 @@ only recommended if a spare or resettable device is available.</p></td>
 <tr id="week-15"><td class="week-cell">WEEK 15</td>
 <td>Final Review/makeup for the weekly submissions and Q/A Session<br />
 <br />
-The alternative OS (iPhone/Android) options in Weeks 1-14 assignments
+The alternative OS (Mac/Windows) options in Weeks 1-14 assignments
 will be reviewed. All the previous Week 1-14 compiles the capstone
 project and will be reviewed and discussed live in class and provide Q/A
 session to support the students altogether.</td>
@@ -1040,6 +1012,31 @@ document.addEventListener('DOMContentLoaded', function() {
   wrap.innerHTML = '';
   wrap.appendChild(frag);
 });
+</script>
+
+<script>
+  const altOsInstructions = [
+    'On Mac, use Finder and the Dock; on Windows, use File Explorer and the taskbar to arrange the required apps, then capture the desktop.',
+    'Create the three folders, then use Get Info on Mac or Properties > Security on Windows to review access settings.',
+    'Use Activity Monitor on Mac or Task Manager on Windows to identify top CPU and memory users and close a non-essential app.',
+    'Install and remove a text editor and archive utility through the Mac App Store or Microsoft Store.',
+    'Open System Settings on Mac or Settings on Windows and capture equivalent display, power, language, and privacy panels.',
+    'Record the IP address in Network settings, then review the built-in firewall settings and document allowed web traffic.',
+    'Use Users & Groups on Mac or Accounts > Family & other users on Windows to compare administrator and standard accounts.',
+    'Use an approved local server app, place the HTML file in its document folder, open localhost in a browser, and capture the running service.',
+    'Install DB Browser for SQLite, create server_data.db, build User Accounts visually, and enter five rows.',
+    'Add Activity Log in DB Browser, enter five records, filter by username, and capture the schema view.',
+    'Configure Time Machine on Mac or File History on Windows, run a backup, delete a test file, and restore it.',
+    'Use Disk Utility on Mac or the Windows recovery image tools to create a full test image and record its size.',
+    'Restore the approved image or backup to a test disk or virtual machine, then verify the files, web page, and database.',
+    'Use macOS Recovery or the Windows graphical installer on a practice device or VM and capture the major setup screens.'
+  ];
+  const altOsParagraphs = [...document.querySelectorAll('p')].filter((paragraph) => /Alternative OS option|Using alternative OS/.test(paragraph.textContent));
+  altOsParagraphs.forEach((paragraph, index) => {
+    const label = document.createElement('strong');
+    label.textContent = 'Alt-OS (Mac/Windows):';
+    paragraph.replaceChildren(label, document.createTextNode(` ${altOsInstructions[index]}`));
+  });
 </script>
 
 </body>
