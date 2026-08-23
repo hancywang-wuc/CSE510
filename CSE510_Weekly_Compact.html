@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE510 Operating System — Weekly Outline (Compact)</title>
+<style>
+  :root {
+    --navy: #1a2472;
+    --navy-dark: #12184f;
+    --gold: #c9a227;
+    --bg: #f5f6fa;
+    --border: #dfe2ee;
+    --text: #23263a;
+    --muted: #6b7089;
+    --hands: #0f9d58;
+    --alt: #c9622a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+    padding: 18px;
+  }
+  .header {
+    max-width: 1100px;
+    margin: 0 auto 14px;
+    text-align: center;
+  }
+  .header h1 {
+    color: var(--navy);
+    font-size: 20px;
+    margin: 0 0 2px;
+  }
+  .header .sub {
+    color: var(--muted);
+    font-size: 12.5px;
+  }
+  .table-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(26,36,114,.06);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  thead th {
+    background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+    color: #fff;
+    text-align: left;
+    padding: 9px 12px;
+    font-size: 11.5px;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+  }
+  tbody tr {
+    border-top: 1px solid var(--border);
+  }
+  tbody tr:nth-child(even) {
+    background: #fafbff;
+  }
+  tbody tr:hover {
+    background: #eef0fb;
+  }
+  td {
+    padding: 8px 12px;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  td.wk {
+    font-weight: 700;
+    color: var(--navy);
+    white-space: nowrap;
+    width: 42px;
+  }
+  td.topic {
+    font-weight: 600;
+    color: var(--navy-dark);
+    width: 190px;
+  }
+  td.assign .main {
+    color: var(--text);
+  }
+  .sub {
+    margin-top: 4px;
+    font-size: 11.5px;
+    color: var(--muted);
+  }
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 6px;
+    color: #fff;
+  }
+  .tag-hands { background: var(--hands); }
+  .tag-alt { background: var(--alt); }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 14px;
+  }
+  @media (max-width: 700px) {
+    table, thead, tbody, tr, td { display: block; }
+    thead { display: none; }
+    tbody tr {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 8px;
+      padding: 6px 0;
+    }
+    td.wk {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 6px;
+      margin: 6px 6px 4px 10px;
+      font-size: 11px;
+    }
+    td.topic {
+      display: inline-block;
+      width: auto;
+      font-size: 13px;
+      padding-top: 4px;
+    }
+    td.assign { padding-top: 2px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>CSE510 — Operating System · Weekly Outline</h1>
+  <div class="sub">Fall 2026 · Whitewater University of California · Compact Reference Table</div>
+</div>
+
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Topic</th>
+<th>Weekly Assignment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="wk">W1</td>
+<td class="topic">System Anatomy — Understanding the Ubuntu Desktop</td>
+<td class="assign"><div class="main">Log in to your school-provided Ubuntu server or any OS like iPhone/Android phone. Using only the mouse/Tap/Touchscreen, customize the desktop/home screen dock to include any apps related to Files app, Firefox browser, Software Centre, System Settings, System Monitor, and Text Editor. Screenshot the customized dock and the full desktop. Submit to Moodle. This desktop configuration will be used as the starting point for every session that follows.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Using alternative OS to show case the similar concepts apply to all future weekly assignments.</div></td>
+</tr>
+<tr>
+<td class="wk">W2</td>
+<td class="topic">File Management &amp; Folder Permissions</td>
+<td class="assign"><div class="main">Using the Files app, create a folder structure inside the Home directory with three subfolders: Server Projects, Shared Files, and Private Config. Right-click each folder, open Properties, go to the Permissions tab, and set appropriate access levels for each — Private Config should be owner-only. Screenshot the folder structure in the Files app and the permission settings for each folder. Submit to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Permission test: In System Settings, create a second standard user account. Log in as that user and attempt to open the Private Config folder. Screenshot the access denied result. Log back in as the main administrator account. Write one sentence explaining why restricting folder access is an essential operating system function.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone, use the Files app to create folders under On My iPhone and use the Share sheet to see how access is limited between apps. On Android, use the Files app to create folders and check Settings &gt; Apps &gt; Permissions to see how each app&#x27;s storage access is individually restricted, mirroring the concept of folder permissions.</div></td>
+</tr>
+<tr>
+<td class="wk">W3</td>
+<td class="topic">Monitoring System Resources — CPU, Memory &amp; Running Processes</td>
+<td class="assign"><div class="main">Open the System Monitor. Identify the three processes consuming the most CPU and the three consuming the most memory. Screenshot the System Monitor with those processes visible and their resource usage readable. Identify at least one non-essential background process and end it using the End Process button. Screenshot the updated process list after closing it. Submit both screenshots to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Resource stress test: Open ten browser tabs in Firefox simultaneously and observe how the CPU and memory graphs respond in the System Monitor. Screenshot the graphs at peak usage, then close all tabs and screenshot them again once they settle. Write one sentence explaining the relationship between the number of active applications and the server&#x27;s available resources.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone, check Settings &gt; Battery and Settings &gt; General &gt; iPhone Storage to see which apps use the most battery and storage, then swipe up on an app in the App Switcher to force-close it. On Android, check Settings &gt; Battery and Settings &gt; Storage (or Device Care) to identify the top resource-consuming apps, then force-stop one from Settings &gt; Apps.</div></td>
+</tr>
+<tr>
+<td class="wk">W4</td>
+<td class="topic">Installing &amp; Removing Software Using the Software/App Centre</td>
+<td class="assign"><div class="main">Open the Ubuntu Software Centre. Install a visual text editor (such as Gedit or Kate) and a file archive manager (such as File Roller). Confirm both applications appear in the application menu and open correctly. Then uninstall one of them through the Software Centre. Screenshot the Software Centre showing the installation of each app and the uninstall confirmation. Submit to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Software removal test: After uninstalling one application, check the application menu to confirm it no longer appears. Try to open it from the Files app if any leftover files remain. Screenshot the result. Write one sentence explaining why the operating system needs to cleanly remove all associated files when an application is uninstalled.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone, use the App Store to install an app, then press and hold the icon and choose Remove App to uninstall it. On Android, use the Google Play Store to install an app, then uninstall it from Settings &gt; Apps or directly from the Play Store listing, observing the same install/uninstall cycle as the Ubuntu Software Centre.</div></td>
+</tr>
+<tr>
+<td class="wk">W5</td>
+<td class="topic">Exploring the System Settings — The Operating System Control Panel</td>
+<td class="assign"><div class="main">Open System Settings and complete the following configurations using only the mouse: set the display to the highest available resolution, disable automatic screen lock in Privacy settings, set the power profile to Performance, and confirm the correct region and language settings. Screenshot each settings panel after making the change. Submit all screenshots to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Settings impact test: In System Settings, temporarily enable automatic screen lock with a 1-minute timeout. Wait for the screen to lock, then unlock it. Then disable automatic screen lock again. Screenshot the lock screen and the disabled setting. Write one sentence explaining why an unattended server should not automatically lock its screen during active use.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone or Android phone, open the Settings app and work through the equivalent categories: Display &amp; Brightness, Battery, Default Apps, Accessibility, Language &amp; Region, and Privacy. Screenshot each panel the same way as the Ubuntu System Settings exercise.</div></td>
+</tr>
+<tr>
+<td class="wk">W6</td>
+<td class="topic">Network Configuration &amp; Firewall Management</td>
+<td class="assign"><div class="main">Open System Settings and navigate to the Network panel. Record the server&#x27;s current IP address and screenshot the network configuration screen. Install the GUFW graphical firewall manager from the Software Centre. Enable the firewall and add rules to allow web traffic (HTTP and HTTPS). Screenshot the firewall panel with the rules active and the firewall enabled. Submit to Moodle.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone, go to Settings &gt; Wi-Fi and tap the (i) next to your network to view the IP address, then explore Screen Time &gt; Content &amp; Privacy Restrictions as a simplified parallel to firewall rules. On Android, go to Settings &gt; Network &amp; Internet &gt; Wi-Fi to view the IP address, then explore Digital Wellbeing or a firewall app such as NetGuard to allow or block traffic by app.</div></td>
+</tr>
+<tr>
+<td class="wk">W7</td>
+<td class="topic">User Account Management</td>
+<td class="assign"><div class="main">Open System Settings and navigate to the Users panel. Create an administrator account named Server Admin and a standard account named Server User. Set a secure password for each. Screenshot the Users panel showing both accounts with their respective privilege levels visible. Submit to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Privilege comparison: Log in as the Server User standard account. Attempt to open System Settings and navigate to the Users panel to create a new account. Screenshot the result — whether it is blocked or requires a password. Log back in as the administrator. Write one sentence explaining why the operating system enforces different permission levels for different user accounts.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — iPhones do not support separate user accounts, so this concept is best explored on Android: go to Settings &gt; System &gt; Multiple Users, add a new restricted user, and compare what that account can and cannot access versus the primary administrator account. iPhone users can approximate this using Screen Time &gt; Family Sharing to review parental and restricted access controls.</div></td>
+</tr>
+<tr>
+<td class="wk">W8</td>
+<td class="topic">Enabling the Web Server &amp; Hosting a Local Web Page</td>
+<td class="assign"><div class="main">Install Apache from the Ubuntu Software/App Centre or through embedded python module. Open the Files app and navigate to the folder want to publish (e.g. /var/www/html/ for Apache). Place Claude&#x27;s generated HTML file into the folder. Open Firefox and navigate to http://localhost to confirm the web page loads. Screenshot the browser showing the live page and the System Monitor showing the Apache/Python process running. Submit to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Web server on/off test: Use the System Monitor to find and end the Apache process. Refresh the browser and screenshot the result — the page should no longer load. Restart Apache using the Software Centre&#x27;s manage application feature. Confirm the page loads again. Write one sentence explaining the relationship between a running operating system process and a service that users can access.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — Phone operating systems sandbox apps and do not allow a true self-hosted web server the way Ubuntu does. Students without access to the Ubuntu server may instead install a simple local HTTP server app from the Play Store to serve a basic page on the local network, or review the concept with Claude/ChatGPT and screenshot the app&#x27;s running state as a substitute for the live Apache demonstration.</div></td>
+</tr>
+<tr>
+<td class="wk">W9</td>
+<td class="topic">Introduction to Databases — Creating &amp; Managing Data Visually</td>
+<td class="assign"><div class="main">Install DB Browser for SQLite from the Ubuntu Software Centre. Create a new database file named server_data.db. Use the visual table designer to create a table named User Accounts with columns for Username (text), Role (text), Email (text), and Date Created (text). Add at least five rows of sample data using the graphical row editor. Screenshot the completed table with all rows visible. Submit to Moodle.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone or Android phone, install a lightweight SQLite database app from the App Store or Play Store (search “SQLite viewer” or “SQLite editor”) to create a table and add sample rows, mirroring the DB Browser exercise. Alternatively, use the Numbers or Google Sheets app to build a structured table as a simplified stand-in for rows and columns.</div></td>
+</tr>
+<tr>
+<td class="wk">W10</td>
+<td class="topic">Expanding the Database — Adding Tables &amp; Filtering Data</td>
+<td class="assign"><div class="main">Open DB Browser for SQLite and add a second table to the server_data.db database named Activity Log with columns for Event ID, Username, Action, and Timestamp. Add at least five rows of sample log entries. Use the visual filter controls to display only the entries belonging to one specific username. Screenshot the filtered result and the schema diagram showing both tables. Submit to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Data integrity test: In DB Browser, attempt to add a new row to the Activity Log table while leaving the Username column empty. Observe what happens. Then use the table designer to set the Username column as required (NOT NULL). Attempt the empty row again and screenshot the result. Write one sentence explaining why preventing empty required fields is important for maintaining reliable server records.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — Using the same mobile SQLite app from Week 9 (or a spreadsheet app), add a second table or sheet, enter sample log-style data, and use the app&#x27;s built-in search or filter feature to isolate records belonging to one user, mirroring the filtering exercise in DB Browser.</div></td>
+</tr>
+<tr>
+<td class="wk">W11</td>
+<td class="topic">Backup &amp; Data Protection</td>
+<td class="assign"><div class="main">Open the Backups application. Configure it to back up the Home directory and Server Projects folder to an external drive or secondary storage location. Schedule automatic backups daily. Run a manual backup immediately and confirm the backup files appear in the destination. Delete one file from the Server Projects folder, then use the Backups app to restore it. Screenshot the backup configuration, the successful backup, and the restored file. Submit to Moodle.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone, confirm iCloud Backup is enabled in Settings &gt; [Your Name] &gt; iCloud &gt; iCloud Backup, run a manual backup, delete a note or photo, and restore it from Recently Deleted. On Android, confirm Google backup is enabled in Settings &gt; System &gt; Backup, run a manual backup, then restore a deleted item from Google Photos Trash or the relevant app&#x27;s recycle bin.</div></td>
+</tr>
+<tr>
+<td class="wk">W12</td>
+<td class="topic">Creating a Full System Image</td>
+<td class="assign"><div class="main">Open the Disks utility. Select the main system drive. Use the gear icon menu to create a partition image and save it to an external drive. Confirm the image file appears on the external drive in the Files app. Screenshot the Disks utility during the image creation process and the resulting image file with its file size visible. Submit to Moodle.</div><div class="sub"><span class="tag tag-hands">Hands-on</span>Image size analysis: Right-click the system image file in the Files app and view its properties to find its size. Compare this to the total size of just the Home directory. Ask Claude to explain what the difference in size tells you about what a system image contains versus a file backup. Write one sentence summarizing the key difference.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — On an iPhone, connect to a computer and use Finder (or iTunes) to create a full encrypted backup, which functions like a system image. On Android, use the manufacturer&#x27;s backup tool or Google&#x27;s full device backup (Settings &gt; System &gt; Backup) to capture a complete device snapshot, then compare its size to a single folder&#x27;s size as in the Week 12 experiment.</div></td>
+</tr>
+<tr>
+<td class="wk">W13</td>
+<td class="topic">Restoring from a System Image — Server Deployment</td>
+<td class="assign"><div class="main">Open the Disks utility and attach a secondary virtual disk. Use the Restore Partition Image option to deploy the Week 12 system image onto the new disk. Boot from the restored disk and confirm the following are all intact: the desktop dock configuration from Week 1, the folder structure from Week 2, the Apache web page from Week 8, and the database from Week 9. Screenshot all four confirmations on the restored disk. Submit to Moodle.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — If a spare or reset iPhone/Android device is available, restore the Week 12 full-device backup onto it and confirm installed apps, settings, and files return successfully, mirroring the Disks utility restore exercise. If no spare device is available, discuss with Claude/ChatGPT what would be restored and screenshot the backup&#x27;s file list as evidence of its scope.</div></td>
+</tr>
+<tr>
+<td class="wk">W14</td>
+<td class="topic">Full Ubuntu Server Installation Using the Visual Installer</td>
+<td class="assign"><div class="main">Using the school-provided installation media, complete a full Ubuntu installation on a designated practice disk or virtual machine. Work through every installer screen using only the mouse. After installation, confirm the system boots to the desktop successfully. Screenshot each major installer screen — language selection, time zone configuration, disk setup, and user account creation — as well as the final working desktop after installation. Submit all screenshots to Moodle.</div><div class="sub"><span class="tag tag-alt">Alt-OS</span>Alternative OS option — With Claude or ChatGPT guiding each step, perform a full factory reset and fresh setup on a personal iPhone or Android phone: language and region selection, Wi-Fi connection, account sign-in, and initial configuration. Screenshot each major setup screen just as with the Ubuntu visual installer. This is optional and only recommended if a spare or resettable device is available.</div></td>
+</tr>
+<tr>
+<td class="wk">W15</td>
+<td class="topic">Final Review / Makeup &amp; Q&amp;A Session</td>
+<td class="assign"><div class="main">Final Review/makeup for the weekly submissions and Q/A Session The alternative OS (iPhone/Android) options in Weeks 1-14 assignments will be reviewed. All the previous Week 1-14 compiles the capstone project and will be reviewed and discussed live in class and provide Q/A session to support the students altogether.</div></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<footer>This syllabus is tentative and subject to change.</footer>
+
+</body>
+</html>
