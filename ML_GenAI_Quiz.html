@@ -68,6 +68,8 @@
   .feedback.correct { border-left-color: var(--hybrid); }
   .feedback.incorrect { border-left-color: var(--wrong); }
   .feedback strong { color: var(--navy-dark); }
+  .answer-image { display: block; width: min(100%, 360px); height: auto; margin-top: 10px; border: 1px solid var(--border); border-radius: 6px; }
+  .answer-caption { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; }
   .actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px; background: var(--navy); }
   button { font: inherit; }
   #check-button, #reset-button { padding: 8px 13px; border: 0; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 700; }
@@ -92,55 +94,55 @@
 <body>
 <header class="header">
   <h1>CSE510 | ML 与 GenAI 场景测验</h1>
-  <div class="sub">面向非 IT 专业人员：判断每个场景适合 ML、GenAI，还是两者结合</div>
+  <div class="sub">面向非 IT 專業人員：用中醫診所日常營運場景判斷 ML、GenAI，還是兩者結合</div>
 </header>
 
 <main>
-  <p class="intro"><strong>简单判断：</strong><strong>ML</strong> 用来从资料中找规律、做预测；<strong>GenAI</strong> 用来生成文字、总结或解释；如果一个负责预测，另一个负责说明或建议，就是 <strong>Hybrid（混合使用）</strong>。</p>
+  <p class="intro"><strong>簡單判斷：</strong><strong>ML</strong> 用來從資料中找規律、做預測；<strong>GenAI</strong> 用來生成文字、總結或解釋；如果一個負責預測，另一個負責說明或建議，就是 <strong>Hybrid（混合使用）</strong>。</p>
   <div class="legend" aria-label="Answer categories">
-    <span class="ml">ML：预测或分类</span>
-    <span class="genai">GenAI：生成或解释</span>
-    <span class="hybrid">Hybrid：两者结合</span>
+    <span class="ml">ML：預測或分類</span>
+    <span class="genai">GenAI：生成或解釋</span>
+    <span class="hybrid">Hybrid：兩者結合</span>
   </div>
 
-  <section class="quiz-wrap" aria-label="Three scenario questions">
+  <section class="quiz-wrap" aria-label="Three Chinese medicine clinic scenario questions">
     <article class="question" data-answer="ml">
-      <div class="question-head"><div class="number">01</div><div><h2>发现硬盘可能故障</h2><p class="scenario">服务器记录硬盘温度、错误次数和使用时间，希望提前几天提醒管理员更换硬盘。<span class="cn">问题：主要任务是根据过去资料预测风险，应该选哪一种？</span></p></div></div>
+      <div class="question-head"><div class="number">01</div><div><h2>預測診所下週會有多忙</h2><p class="scenario">中醫診所記錄每天的預約人數、初診和複診比例、星期幾及節日前後的看診量。診所希望提前知道下週哪幾天會特別忙，好安排醫生和櫃檯人員。<span class="cn">問題：主要任務是根據過去資料預測人數，應該選哪一種？</span></p></div></div>
       <div class="choices">
-        <button class="choice ml" data-choice="ml"><strong>ML</strong><small>学习规律并预测风险</small></button>
-        <button class="choice genai" data-choice="genai"><strong>GenAI</strong><small>生成说明或文字</small></button>
-        <button class="choice hybrid" data-choice="hybrid"><strong>Hybrid</strong><small>预测再生成说明</small></button>
+        <button class="choice ml" data-choice="ml"><strong>ML</strong><small>學習規律並預測風險</small></button>
+        <button class="choice genai" data-choice="genai"><strong>GenAI</strong><small>生成說明或文字</small></button>
+        <button class="choice hybrid" data-choice="hybrid"><strong>Hybrid</strong><small>預測再生成說明</small></button>
       </div>
-      <div class="feedback"><strong>答案：ML。</strong>因为重点是根据结构化历史资料预测硬盘风险。GenAI 可以之后解释警报，但不是完成预测的必要工具。</div>
+      <div class="feedback"><strong>答案：ML。</strong>因為重點是根據過去的預約資料預測未來的看診人數。ML 像一個會從很多例子中找規律的預測工具；它可以幫助診所安排人手，但不需要自己寫一段說明。<img class="answer-image" src="MLvsGenAI.png" alt="ML 與生成式 AI 的區別說明圖"><span class="answer-caption">複習重點：ML 偏向預測，GenAI 偏向生成與解釋。</span></div>
     </article>
 
     <article class="question" data-answer="genai">
-      <div class="question-head"><div class="number">02</div><div><h2>解释看不懂的权限错误</h2><p class="scenario">学生看到“没有权限”，希望有人用简单语言解释原因，并列出修复权限的操作步骤。<span class="cn">问题：主要任务是理解错误并生成说明，应该选哪一种？</span></p></div></div>
+      <div class="question-head"><div class="number">02</div><div><h2>用簡單話說明看診流程</h2><p class="scenario">第一次到中醫診所的患者想知道掛號、問診、量血壓、看舌象、取藥和複診分別是什麼。診所希望自動生成一段親切、容易看懂的說明。<span class="cn">問題：主要任務是寫出適合患者閱讀的文字，應該選哪一種？</span></p></div></div>
       <div class="choices">
-        <button class="choice ml" data-choice="ml"><strong>ML</strong><small>找规律并分类问题</small></button>
-        <button class="choice genai" data-choice="genai"><strong>GenAI</strong><small>解释错误并写出步骤</small></button>
-        <button class="choice hybrid" data-choice="hybrid"><strong>Hybrid</strong><small>先判断再生成帮助</small></button>
+        <button class="choice ml" data-choice="ml"><strong>ML</strong><small>找規律並分類問題</small></button>
+        <button class="choice genai" data-choice="genai"><strong>GenAI</strong><small>解釋流程並寫出說明</small></button>
+        <button class="choice hybrid" data-choice="hybrid"><strong>Hybrid</strong><small>先判斷再生成說明</small></button>
       </div>
-      <div class="feedback"><strong>答案：GenAI。</strong>因为需要的是自然语言解释和操作清单。ML 可以帮助分类错误，但本题重点是生成容易理解的帮助内容。</div>
+      <div class="feedback"><strong>答案：GenAI。</strong>因為需要的是自然語言說明，而且要根據患者的問題寫出容易理解的內容。GenAI 就像一個會參考資料、再用簡單話說明的助手；工作人員仍應檢查內容是否正確。<img class="answer-image" src="AIFamilyPic.png" alt="AI、機器學習、深度學習與生成式 AI 的關係圖"><span class="answer-caption">複習重點：AI 是大範圍概念，ML 是其中一種會從例子學習的方法，GenAI 專注於創作內容。</span></div>
     </article>
 
     <article class="question" data-answer="hybrid">
-      <div class="question-head"><div class="number">03</div><div><h2>处理快要超载的网站服务</h2><p class="scenario">系统先预测网站快要超载，再总结原因、提出安全建议，并写一份记录给管理员审核。<span class="cn">问题：同时需要预测和生成说明，应该选哪一种？</span></p></div></div>
+      <div class="question-head"><div class="number">03</div><div><h2>安排預約並提醒可能需要複診的患者</h2><p class="scenario">診所想根據患者過去的預約情況和看診記錄，提醒櫃檯人員哪些患者可能需要複診；同時自動生成一則禮貌的簡訊草稿，交由工作人員確認後發送。<span class="cn">問題：同時需要找規律和寫簡訊，應該選哪一種？</span></p></div></div>
       <div class="choices">
-        <button class="choice ml" data-choice="ml"><strong>ML</strong><small>预测是否会超载</small></button>
-        <button class="choice genai" data-choice="genai"><strong>GenAI</strong><small>总结并写出事件记录</small></button>
-        <button class="choice hybrid" data-choice="hybrid"><strong>Hybrid</strong><small>预测、解释并提出建议</small></button>
+        <button class="choice ml" data-choice="ml"><strong>ML</strong><small>預測哪些患者可能需要複診</small></button>
+        <button class="choice genai" data-choice="genai"><strong>GenAI</strong><small>整理並寫出禮貌簡訊</small></button>
+        <button class="choice hybrid" data-choice="hybrid"><strong>Hybrid</strong><small>找規律再生成簡訊</small></button>
       </div>
-      <div class="feedback"><strong>答案：Hybrid（混合使用）。</strong>ML 根据监控数据预测超载，GenAI 把结果整理成摘要和建议。真正改变系统前，仍需要管理员审核。</div>
+      <div class="feedback"><strong>答案：Hybrid（混合使用）。</strong>ML 根據過去資料找出可能需要複診的規律，GenAI 把提醒整理成禮貌的簡訊。簡單說，一個負責「找規律」，另一個負責「寫清楚」；發送前仍需要醫護或櫃檯人員審核，不能讓系統自行做醫療判斷。</div>
     </article>
 
-    <div class="actions"><span id="score" aria-live="polite">请为每个场景选择一个答案。</span><div><button id="check-button" type="button">检查答案</button> <button id="reset-button" type="button">重新开始</button></div></div>
+    <div class="actions"><span id="score" aria-live="polite">請為每個場景選擇一個答案。</span><div><button id="check-button" type="button">檢查答案</button> <button id="reset-button" type="button">重新開始</button></div></div>
   </section>
 
-  <section class="rubric"><h2>讨论提示</h2><p>请想一想：输入是什么？希望得到什么结果？是否需要人工审核？再说明为什么另外两种工具不如你的选择合适。</p></section>
+  <section class="rubric"><h2>討論提示</h2><p>請想一想：輸入是什麼？希望得到什麼結果？是否需要人工審核？再說明為什麼另外兩種工具不如你的選擇合適。</p></section>
 </main>
 
-<footer>CSE510 Operating System | ML 与 GenAI 使用场景练习</footer>
+<footer>CSE510 Operating System | ML 與 GenAI 使用場景練習</footer>
 <script>
   const questions = [...document.querySelectorAll('.question')];
   const score = document.querySelector('#score');
@@ -150,7 +152,7 @@
       question.querySelectorAll('.choice').forEach((option) => option.classList.remove('selected', 'correct', 'incorrect'));
       choice.classList.add('selected');
       question.querySelector('.feedback').className = 'feedback';
-      score.textContent = '已选择答案，准备好后请检查。';
+      score.textContent = '已選擇答案，準備好後請檢查。';
     });
   });
   document.querySelector('#check-button').addEventListener('click', () => {
@@ -167,7 +169,7 @@
       feedback.classList.add('visible', isCorrect ? 'correct' : 'incorrect');
     });
     if (answered < questions.length) {
-      score.textContent = `已回答 ${answered} / ${questions.length} 题，请完成所有场景。`;
+      score.textContent = `已回答 ${answered} / ${questions.length} 題，請完成所有場景。`;
     } else {
       score.textContent = `得分：${correct} / ${questions.length}`;
     }
@@ -177,7 +179,7 @@
       question.querySelectorAll('.choice').forEach((choice) => choice.classList.remove('selected', 'correct', 'incorrect'));
       question.querySelector('.feedback').className = 'feedback';
     });
-    score.textContent = '请为每个场景选择一个答案。';
+    score.textContent = '請為每個場景選擇一個答案。';
   });
 </script>
 </body>
