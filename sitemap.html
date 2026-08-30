@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Site Map</title>
+  <style>
+    :root {
+      --navy: #1d3b6d;
+      --navy-dark: #10294f;
+      --gold: #d9b15d;
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2a37;
+      --muted: #5b6472;
+      --border: #dfe5f1;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 960px;
+      margin: 48px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 8px 25px rgba(16, 41, 79, 0.08);
+      padding: 30px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      color: var(--navy-dark);
+      font-size: 2rem;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    li {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fafcff;
+    }
+
+    a {
+      display: block;
+      padding: 16px 18px;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      background: #eef4ff;
+    }
+
+    .meta {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Project Site Map</h1>
+      <p class="subtitle">Existing HTML pages in this workspace.</p>
+
+      <ul>
+        <li>
+          <a href="CSE510_Weekly_Compact.html">
+            <span>CSE510 Operating System — Weekly Outline (Compact)</span>
+            <span class="meta">CSE510_Weekly_Compact.html</span>
+          </a>
+        </li>
+        <li>
+          <a href="index.html">
+            <span>CSE510 Operating System — Fall 2026 Syllabus</span>
+            <span class="meta">index.html</span>
+          </a>
+        </li>
+        <li>
+          <a href="ML_GenAI_Quiz.html">
+            <span>CSE510 | ML & GenAI Scenario Quiz</span>
+            <span class="meta">ML_GenAI_Quiz.html</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
