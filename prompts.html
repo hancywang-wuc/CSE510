@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSE510 Weekly AI Prompts</title>
+  <style>
+    :root {
+      --navy: #1a2472;
+      --navy-dark: #12184f;
+      --gold: #c9a227;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #24273a;
+      --muted: #6b7089;
+      --border: #e2e4ee;
+      --success: #1c8c5c;
+      --shadow: rgba(26, 36, 114, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+      color: #fff;
+      padding: 28px 20px 22px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 3vw, 38px);
+    }
+
+    .hero p {
+      margin: 0;
+      color: #dfe4ff;
+      font-size: 15px;
+    }
+
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    .intro {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px var(--shadow);
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+
+    .intro p {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(26,36,114,.97);
+      backdrop-filter: blur(6px);
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .nav-btn {
+      color: #fff;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      background: rgba(255,255,255,.12);
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: .15s;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-btn:hover {
+      background: var(--gold);
+      color: var(--navy-dark);
+    }
+
+    .nav-btn.is-current {
+      background: var(--gold);
+      color: var(--navy-dark);
+    }
+
+    .site-links {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px var(--shadow);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }
+
+    .site-links h3 {
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-size: 16px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+    }
+
+    .link-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .link-row a {
+      display: inline-block;
+      text-decoration: none;
+      color: var(--navy);
+      background: #eef1ff;
+      border: 1px solid #dfe6ff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    .link-row a:hover {
+      background: #e6ebff;
+    }
+
+    .zh-section {
+      margin: 0 0 26px;
+    }
+
+    .zh-header {
+      margin: 0 0 16px;
+      color: var(--navy);
+      font-size: 18px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .week-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px var(--shadow);
+      padding: 18px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .week-card h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 18px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+    }
+
+    .week-card .topic {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+      font-weight: 600;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 210px;
+      resize: vertical;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fafbff;
+      padding: 12px 14px;
+      font: 13.5px/1.5 "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      color: var(--text);
+    }
+
+    .copy-btn {
+      align-self: flex-start;
+      border: none;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .copy-btn:hover {
+      background: var(--navy-dark);
+    }
+
+    .copy-btn.copied {
+      background: var(--success);
+    }
+
+    @media (max-width: 640px) {
+      .week-card { padding: 16px 14px; }
+      textarea { min-height: 180px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>CSE510 Weekly AI Prompts</h1>
+    <p>Copy and paste these prompts into ChatGPT or Claude for step-by-step guidance.</p>
+  </header>
+
+  <nav class="top-nav" aria-label="Main navigation">
+    <a class="nav-btn" href="index.html">Home</a>
+    <a class="nav-btn is-current" href="prompts.html">Prompts</a>
+    <a class="nav-btn" href="sitemap.html">Sitemap</a>
+    <a class="nav-btn" href="#w1">W1</a>
+    <a class="nav-btn" href="#w2">W2</a>
+    <a class="nav-btn" href="#w3">W3</a>
+    <a class="nav-btn" href="#w4">W4</a>
+    <a class="nav-btn" href="#w5">W5</a>
+    <a class="nav-btn" href="#w6">W6</a>
+    <a class="nav-btn" href="#w7">W7</a>
+    <a class="nav-btn" href="#w8">W8</a>
+    <a class="nav-btn" href="#w9">W9</a>
+    <a class="nav-btn" href="#w10">W10</a>
+    <a class="nav-btn" href="#w11">W11</a>
+    <a class="nav-btn" href="#w12">W12</a>
+    <a class="nav-btn" href="#w13">W13</a>
+    <a class="nav-btn" href="#w14">W14</a>
+    <a class="nav-btn" href="#w15">W15</a>
+  </nav>
+
+  <main class="wrap">
+    <div class="intro">
+      <p>Use these prompts as a quick reference for each weekly assignment. Each week includes both English and Chinese versions, and each prompt reminds the user to include Mac/Windows alternative steps when applicable.</p>
+    </div>
+
+    <div class="site-links">
+      <h3>Course Quick Links</h3>
+      <div class="link-row">
+        <a href="index.html">Course Home</a>
+        <a href="prompts.html">AI Prompts</a>
+        <a href="sitemap.html">Site Map</a>
+      </div>
+    </div>
+
+    <section class="zh-section">
+      <h3 class="zh-header">W1–W5 Prompt Pack</h3>
+      <div class="grid">
+        <section class="week-card" id="w1-bilingual">
+          <h2>W1</h2>
+          <p class="topic">System Anatomy — Understanding the Ubuntu Desktop</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>According to W1 assignment, please list the exact steps to customize the desktop dock/taskbar using only the mouse or trackpad. I need to add the apps for Files, Firefox, Software Centre/App Store, System Settings, System Monitor, and Text Editor. Then I should take one screenshot of the customized dock/taskbar and one full screenshot of the desktop, and submit them to Moodle. Please make the steps clear, numbered, and easy to follow. Also include Mac/Windows alternative steps for the same task.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W1 作业要求，帮我列出具体操作步骤。我要登录 Ubuntu / Mac / Windows 桌面，只用鼠标或触控板，自定义 Dock 或任务栏，加入 Files app、Firefox、Software Centre / App Store、System Settings、System Monitor 和 Text Editor。然后截图自定义后的 Dock/任务栏和完整桌面，并提交到 Moodle。请按步骤 1、2、3……列出操作步骤，并说明每张截图要拍什么内容；同时请特别提醒给出 Mac/Windows 的替代步骤。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w2-bilingual">
+          <h2>W2</h2>
+          <p class="topic">File Management &amp; Folder Permissions</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>According to W2 assignment, please give me a step-by-step guide to create three folders in Home: Server Projects, Shared Files, and Private Config. I need to set permissions for each folder using the Files app and Properties/Permissions, with Private Config set to owner-only. Then I should take screenshots of the folder structure and the permission settings. Next, create a second standard user account, log in as that user, try to open Private Config, and take a screenshot of the access denied result. Finally, explain in one sentence why restricting folder access is important. Include the exact screenshot checklist and also give Mac/Windows alternative steps where relevant.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W2 作业要求，帮我列出具体操作步骤。使用 Files app 在 Home 目录下创建三个文件夹：Server Projects、Shared Files 和 Private Config。然后右键点击每个文件夹，选择 Properties，再进入 Permissions 页面设置访问权限，其中 Private Config 必须设为 Owner-only（仅所有者可访问）。接着截图保存文件夹结构和每个文件夹的权限设置。然后创建第二个标准用户账号，用新用户登录并尝试打开 Private Config，截图 access denied 的结果。最后写一句话说明为什么限制文件夹访问对操作系统很重要。请按步骤列出，并附上截图清单，同时提醒给出 Mac/Windows 的替代步骤。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w3-bilingual">
+          <h2>W3</h2>
+          <p class="topic">Monitoring System Resources</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>Based on W3, help me make a step-by-step process for using the System Monitor to identify the top three CPU-consuming and memory-consuming processes. I need to take screenshots of the visible process list and resource usage, then end at least one unnecessary background process and capture the updated list. After that, I should open ten browser tabs, observe the CPU and memory changes, and take screenshots at peak usage and after closing them. Please include a final sentence explaining the relationship between active applications and server resources. Also provide Mac/Windows alternative steps if I am not using Ubuntu.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W3 作业要求，帮我列出详细步骤。先打开 System Monitor，找出 CPU 使用率最高的三个进程和内存使用最高的三个进程，并截图显示这些进程及其资源占用。然后结束至少一个不必要的后台进程，并截图更新后的进程列表。之后打开十个浏览器标签页，观察 CPU 和内存变化，然后在达到峰值时截图，并在关闭标签页后再截图一次。最后用一句话说明活跃应用数量和服务器资源之间的关系；同时请提醒给出 Mac/Windows 的替代步骤。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w4-bilingual">
+          <h2>W4</h2>
+          <p class="topic">Installing &amp; Removing Software</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>According to W4, list the steps for installing a visual text editor and a file archive tool from the Ubuntu Software Centre or App Center. Then confirm both apps appear in the menu and open correctly, uninstall one of them, and capture the install and uninstall screenshots. Afterward, check that the app no longer appears in the menu and explain in one sentence why the system must remove associated files during uninstall. Give me numbered steps and a screenshot checklist, and include Mac/Windows alternative steps if the student is using a non-Ubuntu machine.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W4 作业要求，帮我列出操作步骤。打开 Ubuntu Software Centre 或 App Center，安装一个文本编辑器和一个压缩/解压工具，确认它们都能在应用菜单中出现并正常打开。随后卸载其中一个应用，并截图展示安装过程和卸载确认界面。最后确认该应用已从菜单中消失，并写一句话说明为什么卸载应用时必须清理相关文件。请给出步骤说明和截图清单，并提醒给出 Mac/Windows 的替代步骤。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w5-bilingual">
+          <h2>W5</h2>
+          <p class="topic">Exploring System Settings</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>For W5, help me write a clear step-by-step guide for adjusting Ubuntu System Settings using only the mouse. I need to set the display to the highest available resolution, disable automatic screen lock in Privacy settings, set the power profile to Performance, and confirm region and language settings. Then I should take screenshots of each settings panel. Also include the alternate experiment: enable screen lock for one minute, wait for the screen to lock, unlock it, disable the feature again, and screenshot the result. Include Mac/Windows alternative steps with a quick note about equivalent settings panels.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W5 作业要求，帮我列出具体步骤。使用鼠标调整 Ubuntu System Settings，设置显示器为最高分辨率，关闭 Privacy 中的自动锁屏功能，设置电源配置为 Performance，并确认地区和语言设置正确。随后截图每个设置页面。也要包含实验部分：开启 1 分钟自动锁屏、等待屏幕锁定、解锁后再关闭自动锁屏，并截图结果。请按步骤列出，并提醒给出 Mac/Windows 的替代步骤及对应设置入口说明。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w6-bilingual">
+          <h2>W6</h2>
+          <p class="topic">Network Configuration &amp; Firewall Management</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>Based on W6, please give me the exact steps to open System Settings, check the current IP address, and take a screenshot of the Network panel. Then install GUFW from the Software Centre, enable the firewall, add rules for HTTP and HTTPS traffic, and take a screenshot showing the enabled firewall and active rules. Keep the response in numbered steps with a screenshot checklist and short Moodle submission instructions. If I am using Mac or Windows, provide the equivalent network/firewall settings and note the differences.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W6 作业要求，帮我列出具体操作步骤。打开 System Settings，查看当前 IP 地址，并截图 Network 面板。然后从 Software Centre 安装 GUFW，启用防火墙，添加 HTTP 和 HTTPS 的规则，并截图防火墙已启用和规则生效的界面。请按步骤列出，附上截图清单和 Moodle 提交说明；如果我使用的是 Mac 或 Windows，请同时给出对应的网络和防火墙替代步骤，并指出差异。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w7-bilingual">
+          <h2>W7</h2>
+          <p class="topic">User Account Management</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>For W7, explain how to create two accounts in Ubuntu System Settings: Server Admin (administrator) and Server User (standard user). I need to set secure passwords and take a screenshot of the Users panel showing both accounts and their permissions. Then, log in as the standard user and attempt to open the Users panel to create a new account; capture the result. Finally, explain in one sentence why different permission levels are needed for different user accounts. Also provide the Mac/Windows alternative steps and a quick note about the equivalent account management interface.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W7 作业要求，帮我说明在 Ubuntu System Settings 中如何创建两个账号：Server Admin（管理员）和 Server User（普通用户）。我需要设置安全密码，并截图 Users 面板，显示两个账号及其权限。然后以标准用户身份登录，并尝试打开 Users 面板创建新账号，记录结果的截图。最后用一句话解释为什么不同用户需要不同权限级别。请同时给出 Mac/Windows 的替代步骤，并说明对应的账号管理界面差异。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w8-bilingual">
+          <h2>W8</h2>
+          <p class="topic">Enabling the Web Server &amp; Hosting a Local Web Page</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>According to W8, help me create a step-by-step process for installing Apache, placing a simple HTML page in the local web root, opening Firefox, and confirming the page loads at localhost. I should take screenshots of the browser showing the page and the System Monitor showing the Apache process running. Then I need to end the Apache process, refresh the page, take a screenshot of the failure, restart it, and explain in one sentence how a running system process supports a service users can access. Add the Mac/Windows alternative steps and mention the equivalent local server setup method.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W8 作业要求，帮我创建一个详细步骤说明，用于安装 Apache、将简单 HTML 页面放到本地 Web 根目录、打开 Firefox，并确认页面能在 localhost 加载。我需要截图浏览器中显示的页面，以及 System Monitor 中 Apache 进程正在运行的界面。之后还要结束 Apache 进程、刷新页面并截图失败结果，然后重启服务并解释一句话：运行中的系统进程如何支持用户可访问的服务。请同时给出 Mac/Windows 的替代步骤，并说明对应的本地服务器配置方法。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w9-bilingual">
+          <h2>W9</h2>
+          <p class="topic">Introduction to Databases</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>Based on W9, list the exact steps to install DB Browser for SQLite from the Software Centre, create a new database named server_data.db, and build a table called User Accounts with Username, Role, Email, and Date Created. Add at least five sample rows using the visual editor, then take a screenshot of the completed table with all rows visible. Please provide numbered steps and a screenshot checklist suitable for Moodle. Include Mac/Windows alternative steps if the student is using a different operating system.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W9 作业要求，帮我列出具体步骤：从 Software Centre 安装 DB Browser for SQLite，创建一个名为 server_data.db 的新数据库，并建立表 User Accounts，包含 Username、Role、Email 和 Date Created 四个字段。然后使用可视化编辑器添加至少五条样例数据，并截图完整表格，确保所有行都可见。请以编号步骤和截图清单的形式写出内容，适合提交到 Moodle。同时提醒给出 Mac/Windows 的替代步骤。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w10-bilingual">
+          <h2>W10</h2>
+          <p class="topic">Expanding the Database &amp; Filtering Data</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>For W10, help me create step-by-step instructions to open DB Browser for SQLite, add a second table named Activity Log with Event ID, Username, Action, and Timestamp, and insert at least five rows. Then use the visual filter controls to show only entries for one specific username, and take screenshots of the filtered result and the schema diagram showing both tables. Also include the data integrity experiment where a blank Username field is rejected and explain why required fields matter in reliable server records. Include a brief Mac/Windows alternative note as well.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W10 作业要求，帮我编写详细步骤说明：打开 DB Browser for SQLite，添加第二张表 Activity Log，其中包含 Event ID、Username、Action 和 Timestamp，并插入至少五条记录。然后使用可视化过滤控件，只显示某个特定用户名的记录，并截图过滤结果和展示两张表的 schema 图。也要包含数据完整性实验：当 Username 为空时，记录应被拒绝，并解释为什么必填字段对可靠服务器记录很重要。请同时提醒给出 Mac/Windows 的替代步骤和说明。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w11-bilingual">
+          <h2>W11</h2>
+          <p class="topic">Backup &amp; Data Protection</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>According to W11, give me a numbered guide for configuring the Backups app to save the Home directory and Server Projects folder to an external drive, schedule daily backups, run a manual backup, and confirm the backup files appear. Then delete one project file, restore it using the backup, and take screenshots of the backup configuration, successful backup, and restored file. Keep it practical and student-friendly for Moodle submission. Add a short note on how to do the same process on Mac/Windows if the system is not Ubuntu.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W11 作业要求，帮我写一份编号步骤指南：配置 Backups 应用，将 Home 目录和 Server Projects 文件夹保存到外部硬盘，设置每日备份计划，手动执行一次备份，并确认备份文件可以显示出来。之后删除一个项目文件，再使用备份恢复它，并截图备份配置、成功备份和恢复后的文件。请保持实用、学生友好，并适合提交到 Moodle。若使用的是 Mac/Windows，请同时附上替代步骤说明。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w12-bilingual">
+          <h2>W12</h2>
+          <p class="topic">Creating a Full System Image</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>Based on W12, help me generate a step-by-step guide to use the Ubuntu Disks utility to create a full system image from the main drive and save it to an external drive. I need to confirm the image file appears in Files, then take screenshots of the Disks utility during creation and the final image file with its size visible. Also include a brief comparison between a full system image and a simple file backup in one sentence. Please include the Mac/Windows alternative steps if this process is performed on another platform.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W12 作业要求，帮我生成步骤说明，使用 Ubuntu Disks 工具从主盘创建完整系统镜像，并保存到外部驱动器。我需要确认镜像文件出现在 Files 中，然后截图 Disks 实用程序创建过程中的界面，以及最终镜像文件大小可见的界面。还要用一句话比较“全系统镜像”和“普通文件备份”的区别。若不是 Ubuntu 环境，请同时提醒给出 Mac/Windows 的替代步骤。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w13-bilingual">
+          <h2>W13</h2>
+          <p class="topic">Restoring from a System Image</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>For W13, create a clear step-by-step guide to open the Disks utility, attach a secondary disk, restore the Week 12 system image onto it, and boot from the restored disk. Then confirm that the desktop dock from Week 1, the folder structure from Week 2, the Apache web page from Week 8, and the database from Week 9 are all intact. Take screenshots of each confirmation and include a final note on why restoring from an image is faster and more reliable than rebuilding from scratch. Also provide Mac/Windows alternative steps where the interface differs.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W13 作业要求，帮我写清楚的步骤说明：打开 Disks 工具，连接第二块磁盘，然后将第 12 周创建的系统镜像恢复到该磁盘，并从恢复后的磁盘启动。接着确认 Week 1 的桌面 Dock、Week 2 的文件夹结构、Week 8 的 Apache 页面，以及 Week 9 的数据库都完整保留。需要对每项确认做截图，并最后说明为什么从系统镜像恢复比从零重建更快、更可靠。若使用 Mac/Windows，也请给出替代步骤说明。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="week-card" id="w14-bilingual">
+          <h2>W14</h2>
+          <p class="topic">Full Ubuntu Server Installation Using the Visual Installer</p>
+          <div class="lang-grid" style="display:grid; gap:12px;">
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">English</p>
+              <textarea readonly>According to W14, help me write a step-by-step guide for completing a full Ubuntu installation using the visual installer with only the mouse. I need to work through language selection, keyboard layout, disk setup, time zone, and user account creation, then confirm the system boots to the desktop. Take screenshots of the major installer screens and the final desktop. Keep the response numbered and concise, and mention the alternative device setup option if applicable. Also include Mac/Windows alternative steps for users who are not on Ubuntu.</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+            <div>
+              <p style="margin:0 0 8px; font-weight:700; color: var(--navy);">中文</p>
+              <textarea readonly>根据 W14 作业要求，帮我写一份详细步骤说明，使用图形化安装器完成 Ubuntu 全新安装，只需使用鼠标即可进行操作。我需要完成语言选择、键盘布局、磁盘设置、时区和用户账号创建，并确认系统能成功启动到桌面。请截图主要安装界面和最终桌面。要求步骤编号清晰、内容简洁，并在适当位置说明替代设备设置选项。若使用的是 Mac/Windows，也请同时给出对应替代步骤说明。</textarea>
+              <button class="copy-btn" onclick="copyPrompt(this)">Copy prompt</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function copyPrompt(button) {
+      const textarea = button.parentElement.querySelector('textarea');
+      textarea.select();
+      textarea.setSelectionRange(0, textarea.value.length);
+      navigator.clipboard.writeText(textarea.value).then(() => {
+        const original = button.textContent;
+        button.textContent = 'Copied';
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.textContent = original;
+          button.classList.remove('copied');
+        }, 1200);
+      }).catch(() => {
+        button.textContent = 'Copy failed';
+        setTimeout(() => {
+          button.textContent = 'Copy prompt';
+        }, 1200);
+      });
+    }
+  </script>
+</body>
+</html>

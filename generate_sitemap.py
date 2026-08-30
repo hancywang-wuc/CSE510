@@ -40,50 +40,150 @@ page = f'''<!DOCTYPE html>
   <title>Site Map</title>
   <style>
     :root {{
-      --navy: #1d3b6d;
-      --navy-dark: #10294f;
-      --gold: #d9b15d;
-      --bg: #f5f7fb;
+      --navy: #1a2472;
+      --navy-dark: #12184f;
+      --gold: #c9a227;
+      --bg: #f7f8fb;
       --card: #ffffff;
-      --text: #1f2a37;
-      --muted: #5b6472;
-      --border: #dfe5f1;
+      --text: #24273a;
+      --muted: #6b7089;
+      --border: #e2e4ee;
+      --shadow: rgba(26, 36, 114, 0.08);
     }}
 
     * {{ box-sizing: border-box; }}
 
     body {{
       margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
     }}
 
+    .hero {{
+      background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+      color: #fff;
+      padding: 30px 20px 24px;
+      text-align: center;
+    }}
+
+    .hero h1 {{
+      margin: 0 0 8px;
+      font-size: clamp(26px, 3vw, 38px);
+    }}
+
+    .hero p {{
+      margin: 0;
+      color: #dfe4ff;
+      font-size: 15px;
+    }}
+
+    .top-nav {{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(26,36,114,.97);
+      backdrop-filter: blur(6px);
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }}
+
+    .nav-btn {{
+      color: #fff;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      background: rgba(255,255,255,.12);
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: .15s;
+      border: 1px solid rgba(255,255,255,.08);
+    }}
+
+    .nav-btn:hover {{
+      background: var(--gold);
+      color: var(--navy-dark);
+    }}
+
+    .nav-btn.is-current {{
+      background: var(--gold);
+      color: var(--navy-dark);
+    }}
+
     .wrap {{
-      max-width: 960px;
-      margin: 48px auto;
-      padding: 0 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }}
+
+    .site-links {{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px var(--shadow);
+      padding: 18px 20px;
+      margin-bottom: 24px;
+    }}
+
+    .site-links h3 {{
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-size: 16px;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 6px;
+    }}
+
+    .link-row {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }}
+
+    .link-row a {{
+      display: inline-block;
+      text-decoration: none;
+      color: var(--navy);
+      background: #eef1ff;
+      border: 1px solid #dfe6ff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-weight: 600;
+      font-size: 13px;
+    }}
+
+    .link-row a:hover {{
+      background: #e6ebff;
     }}
 
     .card {{
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 14px;
-      box-shadow: 0 8px 25px rgba(16, 41, 79, 0.08);
-      padding: 30px;
+      box-shadow: 0 2px 10px var(--shadow);
+      padding: 22px 20px 18px;
     }}
 
-    h1 {{
-      margin: 0 0 12px;
-      color: var(--navy-dark);
-      font-size: 2rem;
+    .card h2 {{
+      margin: 0 0 14px;
+      color: var(--navy);
+      font-size: 20px;
+      letter-spacing: .3px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
     }}
 
     .subtitle {{
-      margin: 0 0 24px;
+      margin: 0 0 18px;
       color: var(--muted);
-      font-size: 1rem;
+      font-size: 15px;
     }}
 
     ul {{
@@ -97,41 +197,62 @@ page = f'''<!DOCTYPE html>
     li {{
       border: 1px solid var(--border);
       border-radius: 10px;
-      background: #fafcff;
+      background: #fafbff;
     }}
 
-    a {{
+    li a {{
       display: block;
-      padding: 16px 18px;
+      padding: 14px 16px;
       color: var(--navy);
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
+      transition: background .15s ease;
     }}
 
-    a:hover {{
-      background: #eef4ff;
+    li a:hover {{
+      background: #eef1ff;
     }}
 
     .meta {{
       display: block;
       margin-top: 4px;
       color: var(--muted);
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 400;
     }}
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <header class="hero">
+    <h1>Project Site Map</h1>
+    <p>Course links and page index for the CSE510 site.</p>
+  </header>
+
+  <nav class="top-nav" aria-label="Main navigation">
+    <a class="nav-btn" href="index.html">Home</a>
+    <a class="nav-btn" href="prompts.html">Prompts</a>
+    <a class="nav-btn is-current" href="sitemap.html">Sitemap</a>
+  </nav>
+
+  <main class="wrap">
+    <div class="site-links">
+      <h3>Course Quick Links</h3>
+      <div class="link-row">
+        <a href="index.html">Course Home</a>
+        <a href="prompts.html">AI Prompts</a>
+        <a href="sitemap.html">Site Map</a>
+      </div>
+    </div>
+
     <div class="card">
-      <h1>Project Site Map</h1>
+      <h2>All HTML Pages</h2>
       <p class="subtitle">Existing HTML pages in this workspace.</p>
 
       <ul>
 {items_html}
       </ul>
     </div>
-  </div>
+  </main>
 </body>
 </html>
 '''
