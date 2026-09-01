@@ -366,9 +366,9 @@
       <div class="mission-box" id="missions"></div>
     </section>
 
-    <section class="panel">
+    <section class="panel" id="submissionPanel">
       <h2>权限分配面板</h2>
-      <div class="table-wrap">
+      <div class="table-wrap" id="tableCaptureArea">
         <table>
           <thead>
             <tr>
@@ -669,7 +669,7 @@
         return;
       }
 
-      const tableWrap = document.querySelector('.table-wrap');
+      const tableWrap = document.getElementById('tableCaptureArea');
       if (!tableWrap) {
         displayResult('未找到可截图的权限表格。', false);
         return;
@@ -680,7 +680,11 @@
           backgroundColor: '#ffffff',
           scale: 2,
           useCORS: true,
-          logging: false
+          logging: false,
+          width: tableWrap.scrollWidth,
+          height: tableWrap.scrollHeight,
+          windowWidth: tableWrap.scrollWidth,
+          windowHeight: tableWrap.scrollHeight
         });
 
         const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
