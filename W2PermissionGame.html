@@ -397,6 +397,12 @@
 
   <script>
     const roles = ["student", "ta", "teacher", "admin"];
+    const roleNames = {
+      student: "学生",
+      ta: "助教",
+      teacher: "老师",
+      admin: "管理员"
+    };
 
     const permissionOptions = {
       deny: "拒绝访问",
@@ -439,6 +445,7 @@
     let currentLevel = 0;
     let score = 0;
     const completedLevels = new Set();
+    const wrongAttemptsByLevel = {};
 
     function buildDefaultMatrix() {
       const challenge = challenges[currentLevel];
@@ -531,12 +538,29 @@
       result.className = 'result ' + (isSuccess ? 'success' : 'fail');
     }
 
+    function revealCurrentAnswer() {
+      const challenge = challenges[currentLevel];
+      const folderId = challenge.folderKey;
+      Object.entries(challenge.target).forEach(([role, value]) => {
+        matrix[folderId][role] = value;
+      });
+      buildTable();
+
+      const answerText = Object.entries(challenge.target)
+        .map(([role, value]) => `${roleNames[role] || role}: ${permissionOptions[value]}`)
+        .join('； ');
+
+      displayResult(`三次尝试后提示答案：${folderMeta[folderId].name} 的正确配置为 ${answerText}。`, false);
+    }
+
     function advanceLevel() {
+      const previousLevel = currentLevel;
       if (currentLevel < challenges.length - 1) {
         currentLevel += 1;
       } else {
         currentLevel = challenges.length - 1;
       }
+      delete wrongAttemptsByLevel[previousLevel];
       matrix = buildDefaultMatrix();
       updateMissionTitle();
       buildMissionCards();
@@ -550,6 +574,7 @@
       const passed = Object.entries(challenge.target).every(([role, value]) => matrix[folderId][role] === value);
 
       if (passed) {
+        delete wrongAttemptsByLevel[currentLevel];
         completedLevels.add(currentLevel);
         score = Math.max(score, (completedLevels.size) * 100);
         document.getElementById('score').textContent = String(score);
@@ -558,11 +583,21 @@
           advanceLevel();
         }, 800);
       } else {
-        displayResult('还差一点：这个文件夹还不是正确的权限配置。请继续修改。', false);
+        const attemptCount = (wrongAttemptsByLevel[currentLevel] ?? 0) + 1;
+        wrongAttemptsByLevel[currentLevel] = attemptCount;
+
+        if (attemptCount >= 3) {
+          revealCurrentAnswer();
+          return;
+        }
+
+        const remaining = 3 - attemptCount;
+        displayResult(`还差一点：这个文件夹还不是正确的权限配置。你已尝试 ${attemptCount} 次，距离提示答案还剩 ${remaining} 次。`, false);
       }
     }
 
     function resetLevel() {
+      delete wrongAttemptsByLevel[currentLevel];
       matrix = buildDefaultMatrix();
       buildTable();
       displayResult('', false);
