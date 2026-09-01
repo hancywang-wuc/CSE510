@@ -345,9 +345,9 @@
     <section class="panel intro">
       <h2>任务说明</h2>
       <p>
-        你现在是一名校园云盘管理员。不同文件夹必须给不同角色访问权限：
+        你现在在处理校园云盘权限配置。不同文件夹必须给不同角色访问权限：
         学生可以读写自己的个人作业区，其他角色不能随意打开；课程共享资料应当允许老师和助教查看/编辑；
-        系统配置区必须只留给管理员。请根据提示设置每个角色的访问权限，
+        系统配置区仅保留给系统管理员进行最高级管理。请根据提示设置每个角色的访问权限，
         然后点击“检查权限”来测试是否成功。
       </p>
       <div class="status-row" style="margin-top: 16px;">
@@ -371,7 +371,7 @@
               <th>学生</th>
               <th>助教</th>
               <th>老师</th>
-              <th>管理员</th>
+              <th>系统管理员</th>
             </tr>
           </thead>
           <tbody id="permissionTable"></tbody>
@@ -382,7 +382,7 @@
         <span class="legend-item"><span class="dot deny"></span> 拒绝访问</span>
         <span class="legend-item"><span class="dot read"></span> 只读</span>
         <span class="legend-item"><span class="dot write"></span> 读写</span>
-        <span class="legend-item"><span class="dot owner"></span> 仅管理员</span>
+        <span class="legend-item"><span class="dot owner"></span> 系统管理员专属</span>
       </div>
 
       <div class="actions">
@@ -401,14 +401,14 @@
       student: "学生",
       ta: "助教",
       teacher: "老师",
-      admin: "管理员"
+      admin: "系统管理员"
     };
 
     const permissionOptions = {
       deny: "拒绝访问",
       read: "只读",
       write: "读写",
-      owner: "仅管理员"
+      owner: "系统管理员专属"
     };
 
     const folderMeta = {
