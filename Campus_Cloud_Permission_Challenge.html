@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>校园云盘权限挑战</title>
+  <style>
+    :root {
+      --navy: #1a2472;
+      --navy-dark: #12184f;
+      --gold: #c9a227;
+      --bg: #f7f8fb;
+      --card: #ffffff;
+      --text: #24273a;
+      --muted: #6b7089;
+      --border: #e2e4ee;
+      --success: #1d8f5f;
+      --danger: #b93f3f;
+      --warning: #d58a1c;
+      --shadow: rgba(26, 36, 114, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+      color: white;
+      padding: 28px 20px 24px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 3vw, 42px);
+    }
+
+    .hero p {
+      margin: 0;
+      color: #dfe4ff;
+      font-size: 15px;
+    }
+
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(26,36,114,.97);
+      backdrop-filter: blur(6px);
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .nav-btn {
+      color: #fff;
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: .2px;
+      background: rgba(255,255,255,.12);
+      padding: 7px 12px;
+      border-radius: 8px;
+      transition: .15s;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nav-btn:hover {
+      background: var(--gold);
+      color: var(--navy-dark);
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 26px 18px 60px;
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 2px 12px var(--shadow);
+      padding: 20px 20px 18px;
+      margin-bottom: 22px;
+    }
+
+    .panel h2 {
+      margin: 0 0 10px;
+      color: var(--navy);
+      font-size: 20px;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 8px;
+    }
+
+    .intro {
+      font-size: 15px;
+    }
+
+    .status-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #eef1ff;
+      border: 1px solid #dfe6ff;
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    .score {
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+      background: #fff;
+    }
+
+    thead th {
+      background: linear-gradient(135deg, var(--navy), var(--navy-dark));
+      color: white;
+      padding: 12px 10px;
+      font-size: 12.5px;
+      letter-spacing: .35px;
+      text-transform: uppercase;
+      text-align: left;
+    }
+
+    tbody td {
+      border-top: 1px solid var(--border);
+      padding: 12px 10px;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fafbff;
+    }
+
+    .folder-name {
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .folder-desc {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    select {
+      width: 100%;
+      padding: 9px 10px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .primary {
+      background: var(--navy);
+      color: #fff;
+      box-shadow: 0 6px 16px rgba(26,36,114,.18);
+    }
+
+    .secondary {
+      background: #eef1ff;
+      color: var(--navy);
+      border: 1px solid #dfe6ff;
+    }
+
+    .result {
+      margin-top: 18px;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .result.success {
+      display: block;
+      background: #eafaf4;
+      border: 1px solid #bfead3;
+      color: var(--success);
+    }
+
+    .result.fail {
+      display: block;
+      background: #fff0f0;
+      border: 1px solid #f2c9c9;
+      color: var(--danger);
+    }
+
+    .mission-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .mission-card {
+      background: #fafbff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 14px 12px;
+    }
+
+    .mission-card h3 {
+      margin: 0 0 6px;
+      color: var(--navy);
+      font-size: 15px;
+    }
+
+    .mission-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mission-card.active {
+      border-color: rgba(26,36,114,.4);
+      background: #eef1ff;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fafbff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .read { background: #5ea9ff; }
+    .write { background: #2bb673; }
+    .deny { background: #d9534f; }
+    .owner { background: #c38b1d; }
+
+    @media (max-width: 700px) {
+      .wrap { padding-top: 18px; }
+      .panel { padding: 16px 14px; }
+      thead th, tbody td { font-size: 12px; }
+      .actions { flex-direction: column; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <h1>校园云盘权限挑战</h1>
+    <p>学生角色、共享资料与私密配置：修正云盘权限，守住校园数据安全</p>
+  </header>
+
+  <nav class="top-nav" aria-label="Main navigation">
+    <a class="nav-btn" href="index.html">Home</a>
+    <a class="nav-btn" href="prompts.html">Prompts</a>
+    <a class="nav-btn" href="sitemap.html">Sitemap</a>
+    <a class="nav-btn" href="Campus_Cloud_Permission_Challenge.html">Cloud Permission Game</a>
+  </nav>
+
+  <main class="wrap">
+    <section class="panel intro">
+      <h2>任务说明</h2>
+      <p>
+        你现在是一名校园云盘管理员。不同文件夹必须给不同角色访问权限：
+        个人作业区应当私密、课程共享资料应当允许老师和助教查看/编辑、
+        系统配置区必须只留给管理员。请根据提示设置每个角色的访问权限，
+        然后点击“检查权限”来测试是否成功。
+      </p>
+      <div class="status-row" style="margin-top: 16px;">
+        <div class="badge">关卡：<span id="levelLabel">1 / 3</span></div>
+        <div class="badge score">得分：<span id="score">0</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 id="missionTitle">关卡 1：个人作业区必须保密</h2>
+      <div class="mission-box" id="missions"></div>
+    </section>
+
+    <section class="panel">
+      <h2>权限分配面板</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>文件夹</th>
+              <th>学生</th>
+              <th>助教</th>
+              <th>老师</th>
+              <th>管理员</th>
+            </tr>
+          </thead>
+          <tbody id="permissionTable"></tbody>
+        </table>
+      </div>
+
+      <div class="legend">
+        <span class="legend-item"><span class="dot deny"></span> 拒绝访问</span>
+        <span class="legend-item"><span class="dot read"></span> 只读</span>
+        <span class="legend-item"><span class="dot write"></span> 读写</span>
+        <span class="legend-item"><span class="dot owner"></span> 仅管理员</span>
+      </div>
+
+      <div class="actions">
+        <button class="primary" id="checkBtn">检查权限</button>
+        <button class="secondary" id="resetBtn">重置本关</button>
+        <button class="secondary" id="nextBtn">下一关</button>
+      </div>
+
+      <div id="result" class="result"></div>
+    </section>
+  </main>
+
+  <script>
+    const roles = ["student", "ta", "teacher", "admin"];
+    const roleNames = {
+      student: "学生",
+      ta: "助教",
+      teacher: "老师",
+      admin: "管理员"
+    };
+
+    const permissionOptions = {
+      deny: "拒绝访问",
+      read: "只读",
+      write: "读写",
+      owner: "仅管理员"
+    };
+
+    const challenges = [
+      {
+        title: "关卡 1：个人作业区必须保密",
+        hint: "学生自己的作业只能自己看到，教职员不能随意打开。",
+        target: {
+          personal: { student: "owner", ta: "deny", teacher: "deny", admin: "owner" },
+          shared: { student: "read", ta: "write", teacher: "write", admin: "write" },
+          project: { student: "write", ta: "write", teacher: "write", admin: "write" },
+          config: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" }
+        }
+      },
+      {
+        title: "关卡 2：共享资料区必须开放给课程团队",
+        hint: "课程资料要让学生与助教读取，老师和管理员可编辑。",
+        target: {
+          personal: { student: "owner", ta: "deny", teacher: "deny", admin: "owner" },
+          shared: { student: "read", ta: "read", teacher: "write", admin: "write" },
+          project: { student: "write", ta: "write", teacher: "write", admin: "write" },
+          config: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" }
+        }
+      },
+      {
+        title: "关卡 3：系统配置区只能由管理员控制",
+        hint: "这部分是云盘系统设置，不能被普通学生或助教访问。",
+        target: {
+          personal: { student: "owner", ta: "deny", teacher: "deny", admin: "owner" },
+          shared: { student: "read", ta: "read", teacher: "write", admin: "write" },
+          project: { student: "write", ta: "write", teacher: "write", admin: "write" },
+          config: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" }
+        }
+      }
+    ];
+
+    const folderMeta = {
+      personal: { name: "个人作业区", desc: "学生专属，保密资料" },
+      shared: { name: "课程共享资料", desc: "课程资料与讲义" },
+      project: { name: "项目协作区", desc: "团队协作文件夹" },
+      config: { name: "系统配置区", desc: "管理员设置与云盘配置" }
+    };
+
+    let currentLevel = 0;
+    let score = 0;
+
+    function makeDefaultMatrix() {
+      const challenge = challenges[currentLevel];
+      const matrix = {};
+      Object.keys(folderMeta).forEach((folderId) => {
+        matrix[folderId] = { ...challenge.target[folderId] };
+      });
+      return matrix;
+    }
+
+    let matrix = makeDefaultMatrix();
+
+    function buildMissionCards() {
+      const missions = document.getElementById('missions');
+      missions.innerHTML = '';
+      challenges.forEach((challenge, index) => {
+        const card = document.createElement('div');
+        card.className = 'mission-card' + (index === currentLevel ? ' active' : '');
+        card.innerHTML = `
+          <h3>任务 ${index + 1}</h3>
+          <p>${challenge.hint}</p>
+        `;
+        missions.appendChild(card);
+      });
+    }
+
+    function buildTable() {
+      const tableBody = document.getElementById('permissionTable');
+      tableBody.innerHTML = '';
+
+      Object.keys(folderMeta).forEach((folderId) => {
+        const row = document.createElement('tr');
+        const folder = folderMeta[folderId];
+        row.innerHTML = `
+          <td>
+            <span class="folder-name">${folder.name}</span>
+            <span class="folder-desc">${folder.desc}</span>
+          </td>
+          ${roles.map(role => `
+            <td>
+              <select data-folder="${folderId}" data-role="${role}">
+                ${Object.entries(permissionOptions).map(([value, label]) => `
+                  <option value="${value}" ${matrix[folderId][role] === value ? 'selected' : ''}>${label}</option>
+                `).join('')}
+              </select>
+            </td>
+          `).join('')}
+        `;
+        tableBody.appendChild(row);
+      });
+
+      bindSelects();
+    }
+
+    function bindSelects() {
+      document.querySelectorAll('select').forEach(select => {
+        select.addEventListener('change', () => {
+          const folderId = select.dataset.folder;
+          const role = select.dataset.role;
+          matrix[folderId][role] = select.value;
+        });
+      });
+    }
+
+    function displayResult(message, isSuccess) {
+      const result = document.getElementById('result');
+      result.textContent = message;
+      result.className = 'result ' + (isSuccess ? 'success' : 'fail');
+    }
+
+    function deepEqual(a, b) {
+      return JSON.stringify(a) === JSON.stringify(b);
+    }
+
+    function checkChallenge() {
+      const challenge = challenges[currentLevel];
+      const expected = challenge.target;
+      const passed = deepEqual(matrix, expected);
+
+      if (passed) {
+        if (score < (currentLevel + 1) * 100) score = (currentLevel + 1) * 100;
+        document.getElementById('score').textContent = String(score);
+        displayResult('正确！权限配置符合安全规范，数据区可正常共享且私密区受保护。', true);
+      } else {
+        displayResult('还差一点！请检查权限是否过度开放或未正确限制私密区域。', false);
+      }
+    }
+
+    function resetLevel() {
+      matrix = makeDefaultMatrix();
+      buildTable();
+      displayResult('', false);
+      document.getElementById('result').className = 'result';
+    }
+
+    function nextLevel() {
+      if (currentLevel < challenges.length - 1) {
+        currentLevel += 1;
+      } else {
+        currentLevel = 0;
+      }
+      document.getElementById('levelLabel').textContent = `${currentLevel + 1} / ${challenges.length}`;
+      document.getElementById('missionTitle').textContent = challenges[currentLevel].title;
+      matrix = makeDefaultMatrix();
+      buildMissionCards();
+      buildTable();
+      document.getElementById('result').className = 'result';
+    }
+
+    document.getElementById('checkBtn').addEventListener('click', checkChallenge);
+    document.getElementById('resetBtn').addEventListener('click', resetLevel);
+    document.getElementById('nextBtn').addEventListener('click', nextLevel);
+
+    document.getElementById('levelLabel').textContent = `${currentLevel + 1} / ${challenges.length}`;
+    document.getElementById('missionTitle').textContent = challenges[currentLevel].title;
+    buildMissionCards();
+    buildTable();
+  </script>
+</body>
+</html>
