@@ -458,6 +458,7 @@
 
     let currentLevel = 0;
     let score = 0;
+    let isFinalState = false;
     const completedLevels = new Set();
     const wrongAttemptsByLevel = {};
 
@@ -479,14 +480,20 @@
     function updateMissionTitle() {
       const title = document.getElementById('missionTitle');
       const label = document.getElementById('levelLabel');
+      if (isFinalState) {
+        title.textContent = '全部任务完成：权限配置已正确';
+        label.textContent = `${challenges.length} / ${challenges.length}`;
+        return;
+      }
       title.textContent = challenges[currentLevel].title;
       label.textContent = `${currentLevel + 1} / ${challenges.length}`;
     }
 
     function setCompletionState() {
       const captureBtn = document.getElementById('captureBtn');
-      if (captureBtn && isAllTasksComplete()) {
-        captureBtn.style.display = 'inline-flex';
+      const shouldShow = isFinalState || isAllTasksComplete();
+      if (captureBtn) {
+        captureBtn.style.display = shouldShow ? 'inline-flex' : 'none';
       }
     }
 
@@ -531,7 +538,7 @@
     function buildTable() {
       const tableBody = document.getElementById('permissionTable');
       tableBody.innerHTML = '';
-      const shouldShowAll = isAllTasksComplete();
+      const shouldShowAll = isFinalState || isAllTasksComplete();
       const finalMatrix = buildFinalMatrix();
       const visibleFolderIds = shouldShowAll
         ? Object.keys(folderMeta)
@@ -564,8 +571,7 @@
         bindSelects();
       }
 
-      const captureBtn = document.getElementById('captureBtn');
-      captureBtn.style.display = shouldShowAll ? 'inline-flex' : 'none';
+      setCompletionState();
     }
 
     function bindSelects() {
@@ -627,9 +633,11 @@
         displayResult('正确！这个文件夹的权限配置已经符合要求。', true);
 
         if (completedLevels.size === challenges.length) {
+          isFinalState = true;
+          matrix = buildFinalMatrix();
+          updateMissionTitle();
           buildMissionCards();
           buildTable();
-          setCompletionState();
           displayResult('全部任务完成！现在可以截图并提交给 Moodle。', true);
           return;
         }
@@ -652,7 +660,8 @@
     }
 
     function resetLevel() {
-      delete wrongAttemptsByLevel[currentLevel];
+      isFinalState = false;
+      Object.keys(wrongAttemptsByLevel).forEach((key) => delete wrongAttemptsByLevel[key]);
       completedLevels.clear();
       score = 0;
       document.getElementById('score').textContent = '0';
