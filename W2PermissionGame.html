@@ -352,7 +352,7 @@
       <p>
         你现在在处理校园云盘权限配置。不同文件夹必须给不同角色访问权限：
         学生可以读写自己的个人作业区，助教和老师只能只读来批改作业；课程共享资料应当允许助教和老师共同查看/编辑课程资料与讲义，
-        因为他们需要更新教学内容与作业说明；系统配置区仅保留给系统管理员进行最高级管理。真实教学流程通常是：学生提交作业 → 助教/老师进行评阅 → 教学团队更新共享资料 → 系统管理员维护平台设置。
+        因为他们需要更新教学内容与作业说明；项目协作区用于小组协作，学生组员需要共同编辑项目文件，而助教和老师可进行监督与必要修订；系统配置区仅保留给系统管理员进行最高级管理。真实教学流程通常是：学生提交作业 → 助教/老师进行评阅 → 教学团队更新共享资料 → 小组协作完成项目 → 系统管理员维护平台设置。
         请根据提示设置每个角色的访问权限，然后点击“检查权限”来测试是否成功。
       </p>
       <div class="status-row" style="margin-top: 16px;">
@@ -421,7 +421,7 @@
     const folderMeta = {
       personal: { name: "个人作业区", desc: "学生专属，保密资料" },
       shared: { name: "课程共享资料", desc: "课程资料与讲义" },
-      project: { name: "项目协作区", desc: "团队协作文件夹" },
+      project: { name: "项目协作区", desc: "小组协作项目文件夹" },
       config: { name: "系统配置区", desc: "管理员设置与云盘配置" }
     };
 
@@ -441,7 +441,14 @@
         wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "deny" }
       },
       {
-        title: "任务 3：系统配置区只能由管理员控制",
+        title: "任务 3：项目协作区应允许小组协作",
+        hint: "项目文件需要供组员共同编辑和提交成果；老师与助教可监督与必要修订，管理员保留系统级访问。",
+        folderKey: "project",
+        target: { student: "write", ta: "write", teacher: "write", admin: "owner" },
+        wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "deny" }
+      },
+      {
+        title: "任务 4：系统配置区只能由管理员控制",
         hint: "系统配置不能被学生或助教访问，只有管理员才能改动。",
         folderKey: "config",
         target: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" },
@@ -474,6 +481,13 @@
       const label = document.getElementById('levelLabel');
       title.textContent = challenges[currentLevel].title;
       label.textContent = `${currentLevel + 1} / ${challenges.length}`;
+    }
+
+    function setCompletionState() {
+      const captureBtn = document.getElementById('captureBtn');
+      if (captureBtn && isAllTasksComplete()) {
+        captureBtn.style.display = 'inline-flex';
+      }
     }
 
     function buildMissionCards() {
@@ -615,6 +629,7 @@
         if (completedLevels.size === challenges.length) {
           buildMissionCards();
           buildTable();
+          setCompletionState();
           displayResult('全部任务完成！现在可以截图并提交给 Moodle。', true);
           return;
         }
@@ -646,6 +661,7 @@
       matrix = buildDefaultMatrix();
       buildMissionCards();
       buildTable();
+      document.getElementById('captureBtn').style.display = 'none';
       displayResult('', false);
       document.getElementById('result').className = 'result';
     }
