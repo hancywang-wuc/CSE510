@@ -222,6 +222,11 @@
       border: 1px solid #dfe6ff;
     }
 
+    .success-compact {
+      background: #eafaf4;
+      color: var(--success);
+    }
+
     .result {
       margin-top: 18px;
       border-radius: 12px;
@@ -346,8 +351,8 @@
       <h2>任务说明</h2>
       <p>
         你现在在处理校园云盘权限配置。不同文件夹必须给不同角色访问权限：
-        学生可以读写自己的个人作业区，其他角色不能随意打开；课程共享资料应当允许助教和老师共同查看/编辑课程资料与讲义；
-        系统配置区仅保留给系统管理员进行最高级管理。请根据提示设置每个角色的访问权限，
+        学生可以读写自己的个人作业区，其他角色不能随意打开；课程共享资料应当允许助教和老师共同查看/编辑课程资料与讲义，
+        因为他们需要更新教学内容与作业说明；系统配置区仅保留给系统管理员进行最高级管理。请根据提示设置每个角色的访问权限，
         然后点击“检查权限”来测试是否成功。
       </p>
       <div class="status-row" style="margin-top: 16px;">
@@ -389,12 +394,14 @@
         <button class="primary" id="checkBtn">检查权限</button>
         <button class="secondary" id="resetBtn">重置本关</button>
         <button class="secondary" id="nextBtn">下一关</button>
+        <button class="secondary success-compact" id="captureBtn" style="display: none;">截图为 PNG 并复制到剪贴板</button>
       </div>
 
       <div id="result" class="result"></div>
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script>
     const roles = ["student", "ta", "teacher", "admin"];
     const roleNames = {
@@ -428,7 +435,7 @@
       },
       {
         title: "任务 2：课程共享资料区必须开放给课程团队",
-        hint: "课程共享资料应允许助教和老师读写，学生可只读。管理员保留系统级访问。",
+        hint: "真实教学中，助教负责更新课程资料和讲义，老师负责修订内容；学生只需查看，管理员保留系统级访问。",
         folderKey: "shared",
         target: { student: "read", ta: "write", teacher: "write", admin: "write" },
         wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "deny" }
@@ -489,18 +496,38 @@
       });
     }
 
+    function isAllTasksComplete() {
+      return completedLevels.size === challenges.length;
+    }
+
+    function buildFinalMatrix() {
+      const finalMatrix = {};
+      Object.keys(folderMeta).forEach((folderId) => {
+        const challenge = challenges.find((item) => item.folderKey === folderId);
+        finalMatrix[folderId] = challenge ? { ...challenge.target } : {
+          student: "deny",
+          ta: "deny",
+          teacher: "deny",
+          admin: "deny"
+        };
+      });
+      return finalMatrix;
+    }
+
     function buildTable() {
       const tableBody = document.getElementById('permissionTable');
       tableBody.innerHTML = '';
-      const visibleFolderId = challenges[currentLevel].folderKey;
+      const shouldShowAll = isAllTasksComplete();
+      const finalMatrix = buildFinalMatrix();
+      const visibleFolderIds = shouldShowAll
+        ? Object.keys(folderMeta)
+        : [challenges[currentLevel].folderKey];
 
-      Object.keys(folderMeta).forEach((folderId) => {
-        if (folderId !== visibleFolderId) {
-          return;
-        }
-
+      visibleFolderIds.forEach((folderId) => {
         const row = document.createElement('tr');
         const folder = folderMeta[folderId];
+        const rowMatrix = shouldShowAll ? finalMatrix[folderId] : matrix[folderId];
+
         row.innerHTML = `
           <td>
             <span class="folder-name">${folder.name}</span>
@@ -508,9 +535,9 @@
           </td>
           ${roles.map(role => `
             <td>
-              <select data-folder="${folderId}" data-role="${role}">
+              <select data-folder="${folderId}" data-role="${role}" ${shouldShowAll ? 'disabled' : ''}>
                 ${Object.entries(permissionOptions).map(([value, label]) => `
-                  <option value="${value}" ${matrix[folderId][role] === value ? 'selected' : ''}>${label}</option>
+                  <option value="${value}" ${rowMatrix[role] === value ? 'selected' : ''}>${label}</option>
                 `).join('')}
               </select>
             </td>
@@ -519,7 +546,12 @@
         tableBody.appendChild(row);
       });
 
-      bindSelects();
+      if (!shouldShowAll) {
+        bindSelects();
+      }
+
+      const captureBtn = document.getElementById('captureBtn');
+      captureBtn.style.display = shouldShowAll ? 'inline-flex' : 'none';
     }
 
     function bindSelects() {
@@ -579,6 +611,15 @@
         score = Math.max(score, (completedLevels.size) * 100);
         document.getElementById('score').textContent = String(score);
         displayResult('正确！这个文件夹的权限配置已经符合要求。', true);
+
+        if (completedLevels.size === challenges.length) {
+          setTimeout(() => {
+            buildTable();
+            displayResult('全部任务完成！现在可以截图并提交给 Moodle。', true);
+          }, 500);
+          return;
+        }
+
         setTimeout(() => {
           advanceLevel();
         }, 800);
@@ -598,7 +639,13 @@
 
     function resetLevel() {
       delete wrongAttemptsByLevel[currentLevel];
+      completedLevels.clear();
+      score = 0;
+      document.getElementById('score').textContent = '0';
+      currentLevel = 0;
+      updateMissionTitle();
       matrix = buildDefaultMatrix();
+      buildMissionCards();
       buildTable();
       displayResult('', false);
       document.getElementById('result').className = 'result';
@@ -617,9 +664,52 @@
       }
     }
 
+    async function captureTableAsPng() {
+      if (!isAllTasksComplete()) {
+        displayResult('请先完成全部任务后，再截图提交到 Moodle。', false);
+        return;
+      }
+
+      const tableWrap = document.querySelector('.table-wrap');
+      if (!tableWrap) {
+        displayResult('未找到可截图的权限表格。', false);
+        return;
+      }
+
+      try {
+        const canvas = await html2canvas(tableWrap, {
+          backgroundColor: '#ffffff',
+          scale: 2,
+          useCORS: true,
+          logging: false
+        });
+
+        const blob = await new Promise((resolve) => canvas.toBlob(resolve, 'image/png'));
+        if (!blob) {
+          throw new Error('无法生成 PNG 图片。');
+        }
+
+        if (navigator.clipboard && window.isSecureContext) {
+          const clipboardItem = new ClipboardItem({ 'image/png': blob });
+          await navigator.clipboard.write([clipboardItem]);
+          displayResult('权限分配表已保存到系统剪贴板，适合直接粘贴到 Moodle。', true);
+        } else {
+          const link = document.createElement('a');
+          link.download = 'campus-cloud-permissions.png';
+          link.href = canvas.toDataURL('image/png');
+          link.click();
+          displayResult('当前浏览器不支持直接复制到剪贴板，已自动下载 PNG 文件。', true);
+        }
+      } catch (error) {
+        console.error(error);
+        displayResult('截图失败，请稍后重试或使用浏览器下载。', false);
+      }
+    }
+
     document.getElementById('checkBtn').addEventListener('click', checkChallenge);
     document.getElementById('resetBtn').addEventListener('click', resetLevel);
     document.getElementById('nextBtn').addEventListener('click', nextLevel);
+    document.getElementById('captureBtn').addEventListener('click', captureTableAsPng);
 
     updateMissionTitle();
     buildMissionCards();
