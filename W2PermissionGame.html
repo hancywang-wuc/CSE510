@@ -402,9 +402,9 @@
     const challenges = [
       {
         title: "关卡 1：个人作业区必须保密",
-        hint: "学生自己的作业只能自己看到，教职员不能随意打开。",
+        hint: "学生自己的作业应该可以读写，但其他角色不能随意进入。",
         target: {
-          personal: { student: "owner", ta: "deny", teacher: "deny", admin: "owner" },
+          personal: { student: "write", ta: "deny", teacher: "deny", admin: "owner" },
           shared: { student: "read", ta: "write", teacher: "write", admin: "write" },
           project: { student: "write", ta: "write", teacher: "write", admin: "write" },
           config: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" }
@@ -414,7 +414,7 @@
         title: "关卡 2：共享资料区必须开放给课程团队",
         hint: "课程资料要让学生与助教读取，老师和管理员可编辑。",
         target: {
-          personal: { student: "owner", ta: "deny", teacher: "deny", admin: "owner" },
+          personal: { student: "write", ta: "deny", teacher: "deny", admin: "owner" },
           shared: { student: "read", ta: "read", teacher: "write", admin: "write" },
           project: { student: "write", ta: "write", teacher: "write", admin: "write" },
           config: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" }
@@ -424,7 +424,7 @@
         title: "关卡 3：系统配置区只能由管理员控制",
         hint: "这部分是云盘系统设置，不能被普通学生或助教访问。",
         target: {
-          personal: { student: "owner", ta: "deny", teacher: "deny", admin: "owner" },
+          personal: { student: "write", ta: "deny", teacher: "deny", admin: "owner" },
           shared: { student: "read", ta: "read", teacher: "write", admin: "write" },
           project: { student: "write", ta: "write", teacher: "write", admin: "write" },
           config: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" }
