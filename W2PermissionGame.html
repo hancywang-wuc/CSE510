@@ -596,6 +596,20 @@
       Object.entries(challenge.target).forEach(([role, value]) => {
         matrix[folderId][role] = value;
       });
+      completedLevels.add(currentLevel);
+      score = Math.max(score, completedLevels.size * 100);
+      document.getElementById('score').textContent = String(score);
+
+      if (isAllTasksComplete()) {
+        isFinalState = true;
+        matrix = buildFinalMatrix();
+        updateMissionTitle();
+        buildMissionCards();
+        buildTable();
+        displayResult('三次尝试后已显示全部正确答案！现在可以截图并提交给 Moodle。', true);
+        return;
+      }
+
       buildTable();
 
       const answerText = Object.entries(challenge.target)
