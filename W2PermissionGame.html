@@ -431,21 +431,24 @@
         hint: "学生需要提交和修改自己的作业；助教和老师需要批改，但不能直接改学生文件，避免覆盖原始提交内容。",
         folderKey: "personal",
         target: { student: "write", ta: "read", teacher: "read", admin: "owner" },
-        wrongDefault: { student: "deny", ta: "write", teacher: "write", admin: "deny" }
+        accepted: { admin: ["write", "owner"] },
+        wrongDefault: { student: "deny", ta: "write", teacher: "write", admin: "owner" }
       },
       {
         title: "任务 2：课程共享资料区必须开放给课程团队",
         hint: "真实教学中，助教负责更新课程资料和讲义，老师负责修订内容；学生只需查看，管理员保留系统级访问，不处理日常教学资料。",
         folderKey: "shared",
-        target: { student: "read", ta: "write", teacher: "write", admin: "write" },
-        wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "deny" }
+        target: { student: "read", ta: "write", teacher: "write", admin: "owner" },
+        accepted: { admin: ["write", "owner"] },
+        wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "owner" }
       },
       {
         title: "任务 3：项目协作区应允许小组协作",
         hint: "项目文件需要供组员共同编辑和提交成果；老师与助教可监督与必要修订，管理员保留系统级访问。",
         folderKey: "project",
         target: { student: "write", ta: "write", teacher: "write", admin: "owner" },
-        wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "deny" }
+        accepted: { admin: ["write", "owner"] },
+        wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "owner" }
       },
       {
         title: "任务 4：系统配置区只能由管理员控制",
@@ -519,6 +522,11 @@
 
     function isAllTasksComplete() {
       return completedLevels.size === challenges.length;
+    }
+
+    function hasExpectedPermission(challenge, role, value) {
+      const acceptedValues = challenge.accepted?.[role] || [challenge.target[role]];
+      return acceptedValues.includes(value);
     }
 
     function buildFinalMatrix() {
@@ -637,7 +645,9 @@
     function checkChallenge() {
       const challenge = challenges[currentLevel];
       const folderId = challenge.folderKey;
-      const passed = Object.entries(challenge.target).every(([role, value]) => matrix[folderId][role] === value);
+      const passed = Object.keys(challenge.target).every((role) => {
+        return hasExpectedPermission(challenge, role, matrix[folderId][role]);
+      });
 
       if (passed) {
         delete wrongAttemptsByLevel[currentLevel];
