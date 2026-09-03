@@ -2,20 +2,12 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>校园云盘权限挑战</title>
   <style>
     :root {
-      --navy: #1a2472;
-      --navy-dark: #12184f;
       --gold: #c9a227;
       --bg: #f7f8fb;
-      --card: #ffffff;
-      --text: #24273a;
       --muted: #6b7089;
       --border: #e2e4ee;
-      --success: #1d8f5f;
-      --danger: #b93f3f;
       --warning: #d58a1c;
       --shadow: rgba(26, 36, 114, 0.08);
     }
@@ -335,48 +327,48 @@
 </head>
 <body>
   <header class="hero">
-    <h1>校园云盘权限挑战</h1>
-    <p>学生角色、共享资料与私密配置：修正云盘权限，守住校园数据安全</p>
+    <h1>校園雲端硬碟權限挑戰</h1>
+    <p>學生角色、共享資料與私密設定：修正雲端硬碟權限，守護校園資料安全</p>
   </header>
 
   <nav class="top-nav" aria-label="Main navigation">
-    <a class="nav-btn" href="index.html">Home</a>
-    <a class="nav-btn" href="prompts.html">Prompts</a>
-    <a class="nav-btn" href="sitemap.html">Sitemap</a>
-    <a class="nav-btn" href="W2PermissionGame.html">W2 Permission Game</a>
+    <a class="nav-btn" href="index.html">首頁</a>
+    <a class="nav-btn" href="prompts.html">提示詞</a>
+    <a class="nav-btn" href="sitemap.html">網站地圖</a>
+    <a class="nav-btn" href="W2PermissionGame.html">權限挑戰</a>
   </nav>
 
   <main class="wrap">
     <section class="panel intro">
-      <h2>任务说明</h2>
+      <h2>任務說明</h2>
       <p>
-        你现在在处理校园云盘权限配置。不同文件夹必须给不同角色访问权限：
-        学生可以读写自己的个人作业区，助教和老师只能只读来批改作业；课程共享资料应当允许助教和老师共同查看/编辑课程资料与讲义，
-        因为他们需要更新教学内容与作业说明；项目协作区用于小组协作，学生组员需要共同编辑项目文件，而助教和老师可进行监督与必要修订；系统配置区仅保留给系统管理员进行最高级管理。真实教学流程通常是：学生提交作业 → 助教/老师进行评阅 → 教学团队更新共享资料 → 小组协作完成项目 → 系统管理员维护平台设置。
-        请根据提示设置每个角色的访问权限，然后点击“检查权限”来测试是否成功。
+        你現在正在處理校園雲端硬碟權限設定。不同資料夾必須給予不同角色存取權限：
+        學生可以讀寫自己的個人作業區，助教和老師只能唯讀以批改作業；課程共享資料應允許助教和老師共同查看／編輯課程資料與講義，
+        因為他們需要更新教學內容與作業說明；專案協作區用於小組協作，學生組員需要共同編輯專案檔案，而助教和老師可進行監督與必要修訂；系統設定區僅保留給系統管理員進行最高級管理。真實教學流程通常是：學生提交作業 → 助教／老師進行評閱 → 教學團隊更新共享資料 → 小組協作完成專案 → 系統管理員維護平台設定。
+        請根據提示設定每個角色的存取權限，然後點擊「檢查權限」來測試是否成功。
       </p>
       <div class="status-row" style="margin-top: 16px;">
-        <div class="badge">关卡：<span id="levelLabel">1 / 3</span></div>
+        <div class="badge">關卡：<span id="levelLabel">1 / 4</span></div>
         <div class="badge score">得分：<span id="score">0</span></div>
       </div>
     </section>
 
     <section class="panel">
-      <h2 id="missionTitle">任务 1：学生可读写自己的个人作业区</h2>
+      <h2 id="missionTitle">任務 1：學生可讀寫自己的個人作業區</h2>
       <div class="mission-box" id="missions"></div>
     </section>
 
     <section class="panel" id="submissionPanel">
-      <h2>权限分配面板</h2>
+      <h2>權限分配面板</h2>
       <div class="table-wrap" id="tableCaptureArea">
         <table>
           <thead>
             <tr>
-              <th>文件夹</th>
-              <th>学生</th>
+              <th>資料夾</th>
+              <th>學生</th>
               <th>助教</th>
-              <th>老师</th>
-              <th>系统管理员</th>
+              <th>老師</th>
+              <th>系統管理員*</th>
             </tr>
           </thead>
           <tbody id="permissionTable"></tbody>
@@ -384,17 +376,17 @@
       </div>
 
       <div class="legend">
-        <span class="legend-item"><span class="dot deny"></span> 拒绝访问</span>
-        <span class="legend-item"><span class="dot read"></span> 只读</span>
-        <span class="legend-item"><span class="dot write"></span> 读写</span>
-        <span class="legend-item"><span class="dot owner"></span> 系统管理员专属</span>
+        <span class="legend-item"><span class="dot deny"></span> 拒絕存取</span>
+        <span class="legend-item"><span class="dot read"></span> 唯讀</span>
+        <span class="legend-item"><span class="dot write"></span> 讀寫</span>
+        <span class="legend-item"><span class="dot owner"></span> 特殊角色</span>
       </div>
 
       <div class="actions">
-        <button class="primary" id="checkBtn">检查权限</button>
-        <button class="secondary" id="resetBtn">重置本关</button>
-        <button class="secondary" id="nextBtn">下一关</button>
-        <button class="secondary success-compact" id="captureBtn" style="display: none;">截图为 PNG 并复制到剪贴板</button>
+        <button class="primary" id="checkBtn">檢查權限</button>
+        <button class="secondary" id="resetBtn">重置本關</button>
+        <button class="secondary" id="nextBtn">下一關</button>
+        <button class="secondary success-compact" id="captureBtn" style="display: none;">截圖為 PNG 並複製到剪貼簿</button>
       </div>
 
       <div id="result" class="result"></div>
@@ -405,54 +397,54 @@
   <script>
     const roles = ["student", "ta", "teacher", "admin"];
     const roleNames = {
-      student: "学生",
+      student: "學生",
       ta: "助教",
-      teacher: "老师",
-      admin: "系统管理员"
+      teacher: "老師",
+      admin: "系統管理員*"
     };
 
     const permissionOptions = {
-      deny: "拒绝访问",
-      read: "只读",
-      write: "读写",
-      owner: "系统管理员专属"
+      deny: "拒絕存取",
+      read: "唯讀",
+      write: "讀寫",
+      owner: "特殊角色"
     };
 
     const folderMeta = {
-      personal: { name: "个人作业区", desc: "学生专属，保密资料" },
-      shared: { name: "课程共享资料", desc: "课程资料与讲义" },
-      project: { name: "项目协作区", desc: "小组协作项目文件夹" },
-      config: { name: "系统配置区", desc: "管理员设置与云盘配置" }
+      personal: { name: "個人作業區", desc: "學生專屬，保密資料" },
+      shared: { name: "課程共享資料", desc: "課程資料與講義" },
+      project: { name: "專案協作區", desc: "小組協作專案資料夾" },
+      config: { name: "系統設定區", desc: "管理員設定與雲端硬碟配置" }
     };
 
     const challenges = [
       {
-        title: "任务 1：学生可读写自己的个人作业区，助教和老师仅可查看",
-        hint: "学生需要提交和修改自己的作业；助教和老师需要批改，但不能直接改学生文件，避免覆盖原始提交内容。",
+        title: "任務 1：學生可讀寫自己的個人作業區，助教和老師僅可查看",
+        hint: "學生需要提交和修改自己的作業；助教和老師需要批改，但不能直接修改學生檔案，以避免覆蓋原始提交內容。",
         folderKey: "personal",
         target: { student: "write", ta: "read", teacher: "read", admin: "owner" },
         accepted: { admin: ["write", "owner"] },
         wrongDefault: { student: "deny", ta: "write", teacher: "write", admin: "owner" }
       },
       {
-        title: "任务 2：课程共享资料区必须开放给课程团队",
-        hint: "真实教学中，助教负责更新课程资料和讲义，老师负责修订内容；学生只需查看，管理员保留系统级访问，不处理日常教学资料。",
+        title: "任務 2：課程共享資料區必須開放給課程團隊",
+        hint: "真實教學中，助教負責更新課程資料和講義，老師負責修訂內容；學生只需查看，管理員保留系統級存取權限，不處理日常教學資料。",
         folderKey: "shared",
         target: { student: "read", ta: "write", teacher: "write", admin: "owner" },
         accepted: { admin: ["write", "owner"] },
         wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "owner" }
       },
       {
-        title: "任务 3：项目协作区应允许小组协作",
-        hint: "项目文件需要供组员共同编辑和提交成果；老师与助教可监督与必要修订，管理员保留系统级访问。",
+        title: "任務 3：專案協作區應允許小組協作",
+        hint: "專案檔案需要供組員共同編輯和提交成果；老師與助教可監督與進行必要修訂，管理員保留系統級存取權限。",
         folderKey: "project",
         target: { student: "write", ta: "write", teacher: "write", admin: "owner" },
         accepted: { admin: ["write", "owner"] },
         wrongDefault: { student: "deny", ta: "read", teacher: "deny", admin: "owner" }
       },
       {
-        title: "任务 4：系统配置区只能由管理员控制",
-        hint: "系统配置不能被学生或助教访问，只有管理员才能改动。",
+        title: "任務 4：系統設定區只能由管理員控制",
+        hint: "系統設定不能被學生或助教存取，只有管理員才能修改。",
         folderKey: "config",
         target: { student: "deny", ta: "deny", teacher: "deny", admin: "owner" },
         wrongDefault: { student: "write", ta: "write", teacher: "write", admin: "deny" }
@@ -484,7 +476,7 @@
       const title = document.getElementById('missionTitle');
       const label = document.getElementById('levelLabel');
       if (isFinalState) {
-        title.textContent = '全部任务完成：权限配置已正确';
+        title.textContent = '全部任務完成：權限設定正確';
         label.textContent = `${challenges.length} / ${challenges.length}`;
         return;
       }
@@ -513,7 +505,7 @@
         }
         card.className = `mission-card ${stateClass}`;
         card.innerHTML = `
-          <h3>任务 ${index + 1}</h3>
+          <h3>任務 ${index + 1}</h3>
           <p>${challenge.hint}</p>
         `;
         missions.appendChild(card);
@@ -614,7 +606,7 @@
         updateMissionTitle();
         buildMissionCards();
         buildTable();
-        displayResult('三次尝试后已显示全部正确答案！现在可以截图并提交给 Moodle。', true);
+        displayResult('三次嘗試後已顯示全部正確答案！現在可以截圖並提交到 Moodle。', true);
         return;
       }
 
@@ -624,7 +616,7 @@
         .map(([role, value]) => `${roleNames[role] || role}: ${permissionOptions[value]}`)
         .join('； ');
 
-      displayResult(`三次尝试后提示答案：${folderMeta[folderId].name} 的正确配置为 ${answerText}。`, false);
+      displayResult(`三次嘗試後提示答案：${folderMeta[folderId].name} 的正確設定為 ${answerText}。`, false);
     }
 
     function advanceLevel() {
@@ -654,7 +646,7 @@
         completedLevels.add(currentLevel);
         score = Math.max(score, (completedLevels.size) * 100);
         document.getElementById('score').textContent = String(score);
-        displayResult('正确！这个文件夹的权限配置已经符合要求。', true);
+        displayResult('正確！這個資料夾的權限設定已符合要求。', true);
 
         if (completedLevels.size === challenges.length) {
           isFinalState = true;
@@ -662,7 +654,7 @@
           updateMissionTitle();
           buildMissionCards();
           buildTable();
-          displayResult('全部任务完成！现在可以截图并提交给 Moodle。', true);
+          displayResult('全部任務完成！現在可以截圖並提交到 Moodle。', true);
           return;
         }
 
@@ -679,7 +671,7 @@
         }
 
         const remaining = 3 - attemptCount;
-        displayResult(`还差一点：这个文件夹还不是正确的权限配置。你已尝试 ${attemptCount} 次，距离提示答案还剩 ${remaining} 次。`, false);
+        displayResult(`還差一點：這個資料夾還不是正確的權限設定。你已嘗試 ${attemptCount} 次，距離提示答案還剩 ${remaining} 次。`, false);
       }
     }
 
@@ -714,13 +706,15 @@
 
     async function captureTableAsPng() {
       if (!isAllTasksComplete()) {
-        displayResult('请先完成全部任务后，再截图提交到 Moodle。', false);
+        displayResult('請先完成全部任務後，再截圖提交到 Moodle。', false);
+          displayResult('請先完成全部任務後，再截圖提交到 Moodle。', false);
         return;
       }
 
       const tableWrap = document.getElementById('tableCaptureArea');
       if (!tableWrap) {
-        displayResult('未找到可截图的权限表格。', false);
+        displayResult('找不到可截圖的權限表格。', false);
+          displayResult('找不到可截圖的權限表格。', false);
         return;
       }
 
@@ -744,17 +738,20 @@
         if (navigator.clipboard && window.isSecureContext) {
           const clipboardItem = new ClipboardItem({ 'image/png': blob });
           await navigator.clipboard.write([clipboardItem]);
-          displayResult('权限分配表已保存到系统剪贴板，适合直接粘贴到 Moodle。', true);
+          displayResult('權限分配表已儲存到系統剪貼簿，可直接貼到 Moodle。', true);
+                  displayResult('權限分配表已儲存到系統剪貼簿，可直接貼到 Moodle。', true);
         } else {
           const link = document.createElement('a');
           link.download = 'campus-cloud-permissions.png';
           link.href = canvas.toDataURL('image/png');
           link.click();
-          displayResult('当前浏览器不支持直接复制到剪贴板，已自动下载 PNG 文件。', true);
+          displayResult('目前瀏覽器不支援直接複製到剪貼簿，已自動下載 PNG 檔案。', true);
+                  displayResult('目前瀏覽器不支援直接複製到剪貼簿，已自動下載 PNG 檔案。', true);
         }
       } catch (error) {
         console.error(error);
-        displayResult('截图失败，请稍后重试或使用浏览器下载。', false);
+        displayResult('截圖失敗，請稍後重試或使用瀏覽器下載。', false);
+        displayResult('截圖失敗，請稍後重試或使用瀏覽器下載。', false);
       }
     }
 
